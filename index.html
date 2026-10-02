@@ -1,0 +1,1034 @@
+<title>TalentBlue</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cdefs%3E%3CclipPath%20id%3D%22tb-hex%22%3E%3Cpath%20d%3D%22M18%205h28q4%200%206%203.5l11%2020q2%203.5%200%207l-11%2020q-2%203.5-6%203.5H18q-4%200-6-3.5L1%2035.5q-2-3.5%200-7l11-20Q14%205%2018%205z%22/%3E%3C/clipPath%3E%3C/defs%3E%3Cg%20clip-path%3D%22url%28%23tb-hex%29%22%3E%3Cpath%20d%3D%22M32%2032L0%2032%2014%204z%22%20fill%3D%22%2317ABDA%22/%3E%3Cpath%20d%3D%22M32%2032L14%204H32z%22%20fill%3D%22%230070AD%22/%3E%3Cpath%20d%3D%22M32%2032V4h18z%22%20fill%3D%22%231A8FCC%22/%3E%3Cpath%20d%3D%22M32%2032L50%204l14%2028z%22%20fill%3D%22%230070AD%22/%3E%3Cpath%20d%3D%22M32%2032h32L50%2060z%22%20fill%3D%22%239ADCF2%22/%3E%3Cpath%20d%3D%22M32%2032L50%2060H14z%22%20fill%3D%22%235CC4E8%22/%3E%3Cpath%20d%3D%22M32%2032L14%2060%200%2032z%22%20fill%3D%22%2317ABDA%22/%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2227%22%20r%3D%228.5%22%20fill%3D%22%23FFFFFF%22/%3E%3Cpath%20d%3D%22M11%2064q0-22%2021-22t21%2022z%22%20fill%3D%22%23FFFFFF%22/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: operations console. Fixed left rail (role + nav), working canvas on the right, slide-in drawer for detail and forms. */
+:root{
+  --bg:#F4F6F9; --surface:#FFFFFF; --surface-2:#EDF0F5; --line:#DCE1EA; --fg:#131926; --muted:#5A6477;
+  --accent:#0070AD; --accent-2:#17ABDA; --accent-ink:#FFFFFF; --accent-soft:#E0F0F9;
+  --weekend:#A85A0C; --weekend-soft:#FBEEDB;
+  --ok:#16794A; --ok-soft:#DFF2E7; --warn:#946000; --warn-soft:#FAF0D4; --bad:#BC2F28; --bad-soft:#FBE3E1;
+  --demand:#8A93A6;
+  --shadow:0 10px 30px rgba(19,25,38,.14);
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r:8px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E121A; --surface:#161B25; --surface-2:#1E2430; --line:#2B3241; --fg:#E6E9F0; --muted:#98A1B4;
+  --accent:#17ABDA; --accent-2:#0070AD; --accent-ink:#0E121A; --accent-soft:#0F2E40;
+  --weekend:#E8A25C; --weekend-soft:#382815;
+  --ok:#52C487; --ok-soft:#15301F; --warn:#E3B24C; --warn-soft:#342910; --bad:#F27D73; --bad-soft:#3A1D1B;
+  --demand:#6B7489; --shadow:0 10px 30px rgba(0,0,0,.5); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E121A; --surface:#161B25; --surface-2:#1E2430; --line:#2B3241; --fg:#E6E9F0; --muted:#98A1B4;
+  --accent:#17ABDA; --accent-2:#0070AD; --accent-ink:#0E121A; --accent-soft:#0F2E40;
+  --weekend:#E8A25C; --weekend-soft:#382815;
+  --ok:#52C487; --ok-soft:#15301F; --warn:#E3B24C; --warn-soft:#342910; --bad:#F27D73; --bad-soft:#3A1D1B;
+  --demand:#6B7489; --shadow:0 10px 30px rgba(0,0,0,.5); color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font:14px/1.5 var(--f-body)}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+h1{font-size:1.6rem;line-height:1.2}
+h2{font-size:1.1rem}
+h3{font-size:.95rem;font-family:var(--f-body);font-weight:600;letter-spacing:0}
+p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.num,.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.eyebrow{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+
+.app{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:100%}
+.rail{background:var(--surface);border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:20px;position:sticky;top:0;height:100vh;overflow:auto}
+.brand{display:flex;align-items:center;gap:10px;padding:0 6px}
+.brand-mark{width:34px;height:34px;flex:none}
+.brand b{font-family:var(--f-display);font-size:1.15rem}
+.brand small{display:block;color:var(--muted);font-size:.72rem;line-height:1.2}
+.theme-btn{margin-left:auto;width:32px;height:32px;padding:0;justify-content:center;font-size:1rem}
+.role-pick label{display:block;padding:0 6px 6px}
+.role-pick select{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface-2)}
+.who{padding:0 6px;font-size:.8rem;color:var(--muted)}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav button{all:unset;cursor:pointer;padding:8px 10px;border-radius:6px;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-weight:500}
+.nav button:hover{background:var(--surface-2);color:var(--fg)}
+.nav button[aria-current="page"]{background:var(--accent-soft);color:var(--fg)}
+.nav button:focus-visible{outline:2px solid var(--accent)}
+.nav .count{font-family:var(--f-mono);font-size:.72rem;background:var(--bad);color:var(--surface);border-radius:10px;padding:0 7px}
+.login{min-height:100vh;display:grid;place-items:center;padding:24px 16px}
+.login-card{width:min(400px,100%);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:28px;display:flex;flex-direction:column;gap:16px;box-shadow:var(--shadow)}
+.login-card .brand{padding:0}
+.login-card .btn.primary{justify-content:center;padding-block:10px}
+.login-card .field input{padding:9px 11px}
+.demo-acc{display:flex;flex-direction:column;gap:6px}
+.demo-acc button{all:unset;cursor:pointer;display:flex;justify-content:space-between;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:var(--r);font-size:.84rem}
+.demo-acc button:hover{border-color:var(--accent)}
+.demo-acc button:focus-visible{outline:2px solid var(--accent)}
+.demo-acc span{color:var(--muted)}
+.signout{align-self:flex-start;margin:4px 6px 0}
+.rail-foot{margin-top:auto;display:flex;flex-direction:column;gap:8px;padding:0 6px;font-size:.75rem;color:var(--muted)}
+
+.main{padding-block:22px 60px;padding-inline:28px;min-width:0}
+.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.topbar .sub{color:var(--muted);margin-top:4px;max-width:70ch}
+.top-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+.btn{border:1px solid var(--line);background:var(--surface);padding:7px 13px;border-radius:var(--r);cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--accent);padding-inline:6px}
+.btn.small{padding:4px 9px;font-size:.82rem}
+.btn.danger{color:var(--bad)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.bell{position:relative}
+.bell .dot{position:absolute;top:-5px;right:-5px;background:var(--bad);color:var(--surface);font-family:var(--f-mono);font-size:.65rem;border-radius:9px;padding:0 5px;line-height:16px}
+
+.grid{display:grid;gap:16px}
+.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cols-3-1{grid-template-columns:minmax(0,2fr) minmax(0,1fr)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;min-width:0}
+.card-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.kpi .v{font-family:var(--f-display);font-size:1.7rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpi .v small{font-family:var(--f-body);font-size:.85rem;color:var(--muted);font-weight:400}
+.kpi .t{font-size:.78rem;color:var(--muted)}
+
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:.74rem;font-weight:600;border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.pill.info{background:var(--accent-soft);color:var(--accent)}
+.pill.we{background:var(--weekend-soft);color:var(--weekend)}
+.pill.plain{background:var(--surface-2);color:var(--muted)}
+.lvl{font-family:var(--f-mono);font-size:.7rem;font-weight:500;border:1px solid var(--accent);color:var(--accent);border-radius:4px;padding:0 4px;line-height:1.5}
+.lvl.l2{background:var(--accent);color:var(--accent-ink)}
+.tag{font-size:.75rem;background:var(--surface-2);border-radius:4px;padding:1px 7px;white-space:nowrap}
+
+.insights{display:flex;flex-direction:column}
+.insight{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:start;padding:12px 0;border-top:1px solid var(--line)}
+.insight:first-child{border-top:0;padding-top:0}
+.sev{width:9px;height:9px;border-radius:50%;margin-top:6px}
+.sev.critical{background:var(--bad)} .sev.warning{background:var(--warn)} .sev.info{background:var(--accent)}
+.insight b{font-weight:600}
+.insight p{color:var(--muted);font-size:.86rem;margin-top:2px}
+
+.tbl-wrap{overflow-x:auto;margin-inline:-4px}
+table{width:100%;border-collapse:collapse;font-size:.86rem}
+th{text-align:left;font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:8px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr.clickable{cursor:pointer}
+tr.clickable:hover td{background:var(--surface-2)}
+td.r,th.r{text-align:right}
+
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:14px}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field label,.field .lab{font-size:.74rem;font-weight:600;color:var(--muted)}
+.field select,.field input,.field textarea{padding:7px 10px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);min-width:0}
+.field textarea{min-height:70px;resize:vertical}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface)}
+.seg button{all:unset;cursor:pointer;padding:6px 12px;font-weight:500;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+
+/* roster grid */
+.roster-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.roster{border-collapse:separate;border-spacing:0;font-size:.8rem;width:auto;min-width:100%}
+.roster th,.roster td{border-bottom:1px solid var(--line);padding:0;text-transform:none;letter-spacing:0}
+.roster thead th{padding:8px 4px;text-align:center;font-family:var(--f-mono);font-weight:500;color:var(--muted);font-size:.72rem;line-height:1.3;background:var(--surface);position:sticky;top:0}
+.roster thead th.today{color:var(--accent);font-weight:600}
+.roster th.rowh{position:sticky;left:0;background:var(--surface);text-align:left;padding:8px 12px;min-width:150px;font-family:var(--f-body);font-size:.82rem;color:var(--fg);font-weight:500;z-index:1;border-right:1px solid var(--line)}
+.roster td button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;width:52px;height:46px;font-family:var(--f-mono);position:relative;border-right:1px solid var(--surface)}
+.roster td button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.roster td button b{font-weight:500;font-size:.9rem}
+.roster td button small{font-size:.62rem;color:var(--muted)}
+.roster td.past button{opacity:.45}
+.roster td.gap button::after{content:"";position:absolute;inset:3px;border:1.5px solid var(--bad);border-radius:5px}
+.roster td.short button::after{content:"";position:absolute;inset:3px;border:1.5px dashed var(--warn);border-radius:5px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.78rem;color:var(--muted);align-items:center;margin-top:10px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:14px;height:14px;border-radius:3px;display:inline-block}
+
+/* availability calendar */
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.cal .dh{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600;padding:0 4px}
+.day{all:unset;box-sizing:border-box;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:8px;min-height:96px;padding:8px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.day:hover{border-color:var(--accent)}
+.day:focus-visible{outline:2px solid var(--accent)}
+.day .dn{font-family:var(--f-mono);font-size:.82rem;display:flex;justify-content:space-between;gap:4px}
+.day .times{font-family:var(--f-mono);font-size:.68rem;color:var(--muted);line-height:1.35;overflow-wrap:anywhere}
+.day.st-A{border-left:4px solid var(--ok)}
+.day.st-P{border-left:4px solid var(--warn)}
+.day.st-N{border-left:4px solid var(--bad);background:var(--surface-2)}
+.day.we{background:var(--weekend-soft)}
+.day.off{cursor:default;opacity:.55;background:var(--surface-2)}
+.day.off:hover{border-color:var(--line)}
+.day.today{box-shadow:inset 0 0 0 1.5px var(--accent)}
+.day .drv{font-size:.68rem;color:var(--weekend);font-weight:600;line-height:1.3}
+.day .bk{font-size:.68rem;color:var(--accent);font-weight:600}
+
+/* chips as toggles */
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip span{display:inline-block;padding:5px 11px;border:1px solid var(--line);border-radius:999px;font-family:var(--f-mono);font-size:.8rem;cursor:pointer;background:var(--surface)}
+.chip input:checked+span{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.chip input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+.chip.locked span{border-style:dashed}
+.chip.text span{font-family:var(--f-body)}
+
+/* slot list */
+.daygroup{margin-bottom:18px}
+.daygroup h3{display:flex;gap:8px;align-items:center;margin-bottom:6px}
+.slotrow{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:12px;align-items:center;padding:9px 12px;background:var(--surface);border:1px solid var(--line);border-radius:8px;margin-bottom:6px}
+.slotrow .t{font-family:var(--f-mono);font-weight:500}
+.slotrow .meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;min-width:0}
+
+/* bars */
+.bars{display:flex;flex-direction:column;gap:10px}
+.barrow{display:grid;grid-template-columns:150px minmax(0,1fr);gap:12px;align-items:center}
+.barrow .lab{font-size:.84rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.barpair{display:flex;flex-direction:column;gap:3px}
+.bar{display:flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+.bar i{display:block;height:9px;border-radius:0 4px 4px 0;min-width:2px}
+.bar i.cap{background:var(--accent)} .bar i.dem{background:var(--demand)}
+.bar i.fun{background:var(--accent);height:22px}
+.meter{height:6px;background:var(--surface-2);border-radius:3px;overflow:hidden;min-width:60px}
+.meter i{display:block;height:100%;background:var(--accent);border-radius:3px}
+.meter.we i{background:var(--weekend)}
+
+/* drive cards */
+.drive{display:flex;flex-direction:column;gap:12px}
+.drive-head{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.drive-date{font-family:var(--f-display);font-size:1.25rem;color:var(--weekend)}
+
+/* copilot */
+.chat{display:flex;flex-direction:column;gap:12px;min-height:300px}
+.msg{max-width:min(720px,100%);padding:10px 14px;border-radius:10px;line-height:1.5}
+.msg.me{align-self:flex-end;background:var(--accent);color:var(--accent-ink)}
+.msg.bot{align-self:flex-start;background:var(--surface);border:1px solid var(--line);min-width:0;width:100%}
+.msg.bot table{margin-top:8px}
+.msg .src{font-size:.72rem;color:var(--muted);margin-top:6px}
+.chatbar{display:flex;gap:8px;margin-top:14px}
+.chatbar input{flex:1;min-width:0;padding:10px 12px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(10,14,22,.38);z-index:20}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(480px,100%);background:var(--surface);z-index:21;box-shadow:var(--shadow);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.drawer-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:18px 20px;border-bottom:1px solid var(--line)}
+.drawer-body{padding:18px 20px;overflow:auto;display:flex;flex-direction:column;gap:16px;flex:1}
+.drawer-foot{padding:14px 20px;border-top:1px solid var(--line);display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.x{all:unset;cursor:pointer;font-size:1.4rem;line-height:1;color:var(--muted);padding:2px 6px;border-radius:4px}
+.x:focus-visible{outline:2px solid var(--accent)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rec{border:1px solid var(--line);border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:6px}
+.rec.top{border-color:var(--accent)}
+.rec-head{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.score{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);font-weight:500}
+.reasons{display:flex;flex-wrap:wrap;gap:5px}
+.note{background:var(--surface-2);border-radius:8px;padding:10px 12px;font-size:.84rem;color:var(--muted)}
+.note.we{background:var(--weekend-soft);color:var(--fg)}
+.note.bad{background:var(--bad-soft);color:var(--fg)}
+.banner{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;padding:12px 16px;border-radius:10px;background:var(--accent-soft);margin-bottom:16px}
+.banner.warn{background:var(--warn-soft)}
+.list{display:flex;flex-direction:column}
+.li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}
+.li:first-child{border-top:0}
+.notif{padding:10px 0;border-top:1px solid var(--line)}
+.notif.unread b{color:var(--accent)}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:8px;z-index:30;max-width:calc(100% - 32px);box-shadow:var(--shadow);font-size:.9rem}
+
+@media (max-width:980px){.cols-2,.cols-3-1{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:860px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .rail{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:14px 16px;gap:12px}
+  .nav{flex-direction:row;overflow-x:auto;gap:4px}
+  .nav button{white-space:nowrap}
+  .rail-foot{display:none}
+  .main{padding-inline:16px}
+  .role-row{display:flex;gap:10px;align-items:end;flex-wrap:wrap}
+}
+@media (max-width:560px){
+  .cal{gap:3px}
+  .day{min-height:64px;padding:5px}
+  .day .times,.day .drv,.day .reason,.day .dn .pill,.day .bk{display:none}
+  .barrow{grid-template-columns:minmax(0,1fr)}
+  .row2{grid-template-columns:minmax(0,1fr)}
+  .slotrow{grid-template-columns:52px minmax(0,1fr)}
+  .slotrow .act{grid-column:1/-1}
+}
+@media (prefers-reduced-motion:no-preference){
+  .drawer{animation:slide .22s ease-out}
+  @keyframes slide{from{transform:translateX(24px);opacity:.4}to{transform:none;opacity:1}}
+}
+</style>
+
+<main id="login" class="login" hidden>
+  <form class="login-card" id="loginform" novalidate>
+    <div class="brand"><svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true"><defs><clipPath id="tb-hex-login"><path d="M18 5h28q4 0 6 3.5l11 20q2 3.5 0 7l-11 20q-2 3.5-6 3.5H18q-4 0-6-3.5L1 35.5q-2-3.5 0-7l11-20Q14 5 18 5z"/></clipPath></defs><g clip-path="url(#tb-hex-login)"><path d="M32 32L0 32 14 4z" fill="#17ABDA"/><path d="M32 32L14 4H32z" fill="#0070AD"/><path d="M32 32V4h18z" fill="#1A8FCC"/><path d="M32 32L50 4l14 28z" fill="#0070AD"/><path d="M32 32h32L50 60z" fill="#9ADCF2"/><path d="M32 32L50 60H14z" fill="#5CC4E8"/><path d="M32 32L14 60 0 32z" fill="#17ABDA"/><circle cx="32" cy="27" r="8.5" fill="#FFFFFF"/><path d="M11 64q0-22 21-22t21 22z" fill="#FFFFFF"/></g></svg><div><b>TalentBlue</b><small>Smart Ops. Smart People.</small></div></div>
+    <div><h1>Sign in</h1><p class="muted" style="margin-top:4px">Use your TalentBlue account to continue.</p></div>
+    <div class="field"><label for="li-email">Email</label><input id="li-email" type="email" autocomplete="username" required></div>
+    <div class="field"><label for="li-pw">Password</label><input id="li-pw" type="password" autocomplete="current-password" required></div>
+    <p id="li-err" role="alert" style="color:var(--bad);font-size:.86rem" hidden></p>
+    <button class="btn primary" type="submit">Sign in</button>
+    <div><div class="eyebrow" style="margin-bottom:6px">Demo accounts · password demo123</div><div class="demo-acc" id="demo-acc"></div></div>
+    <p class="muted" style="font-size:.76rem">Demo sign-in only. Accounts are stored in this page, so it does not protect real data.</p>
+  </form>
+</main>
+<div class="app" id="app" hidden>
+  <aside class="rail">
+    <div class="brand"><svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true"><defs><clipPath id="tb-hex"><path d="M18 5h28q4 0 6 3.5l11 20q2 3.5 0 7l-11 20q-2 3.5-6 3.5H18q-4 0-6-3.5L1 35.5q-2-3.5 0-7l11-20Q14 5 18 5z"/></clipPath></defs><g clip-path="url(#tb-hex)"><path d="M32 32L0 32 14 4z" fill="#17ABDA"/><path d="M32 32L14 4H32z" fill="#0070AD"/><path d="M32 32V4h18z" fill="#1A8FCC"/><path d="M32 32L50 4l14 28z" fill="#0070AD"/><path d="M32 32h32L50 60z" fill="#9ADCF2"/><path d="M32 32L50 60H14z" fill="#5CC4E8"/><path d="M32 32L14 60 0 32z" fill="#17ABDA"/><circle cx="32" cy="27" r="8.5" fill="#FFFFFF"/><path d="M11 64q0-22 21-22t21 22z" fill="#FFFFFF"/></g></svg><div><b>TalentBlue</b><small>Smart Ops. Smart People.</small></div><button class="btn theme-btn" id="themeBtn" data-act="theme"></button></div>
+    <div class="role-row">
+      <div class="role-pick"><label class="eyebrow" for="role">Viewing as</label>
+        <select id="role">
+          <option value="coordinator">Interview coordinator</option>
+          <option value="panel">Panel member</option>
+          <option value="ta">TA partner</option>
+          <option value="hm">Hiring manager</option>
+        </select></div>
+      <div class="who" id="who"></div>
+      <button class="btn small signout" data-act="signout">Sign out</button>
+    </div>
+    <nav class="nav" id="nav" aria-label="Sections"></nav>
+    <div class="rail-foot">
+      <span>Sample data · demo date Fri 2 Oct 2026. Changes are kept in this browser.</span>
+      <button class="btn small" data-act="reset">Reset demo data</button>
+    </div>
+  </aside>
+  <main class="main" id="main"></main>
+</div>
+<div id="scrim" class="scrim" hidden data-act="closeDrawer"></div>
+<aside id="drawer" class="drawer" hidden role="dialog" aria-modal="true" aria-labelledby="drawer-title"></aside>
+<div id="toast" class="toast" hidden role="status"></div>
+
+<script>
+/* ---------- constants ---------- */
+const TODAY='2026-10-02';
+const SKILLS=['UX Design','React','Angular','Full Stack (Java+Angular)','Full Stack (Java+React)','MERN','MEAN','Mobile','Java','Node.js','React + Next.js'];
+const SHORT={'Full Stack (Java+Angular)':'Full Stack Java+Angular','Full Stack (Java+React)':'Full Stack Java+React','React + Next.js':'React + Next'};
+const sk=s=>SHORT[s]||s;
+const WD_SLOTS=['09:30','11:00','12:30','14:30','16:00','17:30'];
+const WE_SLOTS=['09:30','11:00','12:30','14:30','16:00'];
+const DN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const DAYS=Array.from({length:31},(_,i)=>`2026-10-${String(i+1).padStart(2,'0')}`);
+const dw=d=>new Date(d+'T12:00:00').getDay();
+const isWE=d=>{const x=dw(d);return x===0||x===6};
+const dnum=d=>+d.slice(8);
+const fd=d=>`${DN[dw(d)]} ${dnum(d)} Oct`;
+const wk=d=>Math.floor((dnum(d)-1+3)/7)+1;
+const WEEKDAYS=DAYS.filter(d=>!isWE(d));
+const slotsOf=d=>isWE(d)?WE_SLOTS:WD_SLOTS;
+const addDays=(d,n)=>DAYS[Math.min(30,Math.max(0,dnum(d)-1+n))];
+const DRIVES=[
+  {id:'d1',date:'2026-10-10',name:'React & Java bulk drive',loc:'Bengaluru, Tower B',demand:{'React':25,'Java':15,'UX Design':10}},
+  {id:'d2',date:'2026-10-17',name:'Full Stack hiring day',loc:'Hyderabad campus',demand:{'Full Stack (Java+Angular)':20,'Full Stack (Java+React)':20,'Node.js':10}},
+  {id:'d3',date:'2026-10-25',name:'Mobile & MERN drive',loc:'Pune office',demand:{'Mobile':15,'MERN':15,'MEAN':10}},
+  {id:'d4',date:'2026-10-31',name:'Lateral web UI drive',loc:'Chennai office',demand:{'Angular':12,'React + Next.js':10}}
+];
+const driveOn=d=>DRIVES.find(x=>x.date===d);
+const UNAVAIL_TYPES=['Leave plan','Project commitment','Meeting conflict','Emergency'];
+const ROLES={
+  coordinator:{user:'Girish Dunga',title:'Interview coordinator',nav:[['overview','Overview'],['roster','Roster planner'],['panels','Panel directory'],['drives','Weekend drives'],['exceptions','Exceptions'],['copilot','Copilot'],['activity','Activity log']]},
+  panel:{user:'Rahul Menon',title:'React L1 panel member',nav:[['availability','My availability'],['myinterviews','My interviews']]},
+  ta:{user:'Priya Nair',title:'TA partner',nav:[['slots','Find a slot'],['scheduled','Scheduled interviews'],['drives','Weekend drives']]},
+  hm:{user:'Girish Dunga',title:'Hiring manager',nav:[['dashboard','Hiring dashboard'],['drives','Weekend drives'],['copilot','Copilot']]}
+};
+const ME='p1';
+const SPEC=[
+['Rahul Menon','React','React + Next.js','L1',6],['Rajesh Kumar','React','','L2',11],['Suman Das','React','Full Stack (Java+React)','L2',14],
+['Kiran Reddy','Full Stack (Java+React)','React','L1L2',9],['Anjali Verma','UX Design','','L1',7],['Arjun Pillai','UX Design','','L2',12],
+['Sneha Kulkarni','UX Design','','L1',5],['Vivek Joshi','Angular','','L1',6],['Pooja Shetty','Angular','Full Stack (Java+Angular)','L1L2',9],
+['Karthik Subramanian','Angular','','L1',5],['Neha Gupta','Full Stack (Java+Angular)','Java','L1',7],['Sandeep Rao','Full Stack (Java+Angular)','Angular','L2',12],
+['Divya Krishnan','Full Stack (Java+React)','','L1',6],['Amit Bansal','Full Stack (Java+React)','Java','L2',13],['Lakshmi Narayan','MERN','Node.js','L1',6],
+['Rohit Malhotra','MERN','React','L1L2',9],['Shreya Bhat','MERN','','L1',5],['Manoj Patil','MEAN','Angular','L1',7],
+['Nisha Thomas','MEAN','Node.js','L2',11],['Aditya Kapoor','Mobile','','L1',6],['Farhan Sheikh','Mobile','','L1L2',10],
+['Kavya Hegde','Mobile','','L1',5],['Siddharth Jain','Java','','L1',6],['Ritu Saxena','Java','','L1',7],
+['Varun Chopra','Java','Full Stack (Java+Angular)','L1',8],['Meghna Sen','Java','','L2',15],['Harish Gowda','Java','','L1',5],
+['Tanvi Desai','Node.js','MERN','L1',6],['Abhishek Mishra','Node.js','MEAN','L2',10],['Swati Agarwal','React + Next.js','React','L1',6],
+['Naveen Kumar','React + Next.js','','L1L2',9],['Ishita Roy','React','','L1',4],['Gaurav Singh','React','MERN','L1',7],
+['Preethi Raman','Angular','MEAN','L2',11],['Sunil Varma','Mobile','','L2',12],['Aparna Menon','UX Design','','L1',8],
+['Deepika Nair','Full Stack (Java+React)','React','L1',7],['Mohit Arora','Java','Node.js','L1',6],['Rekha Iyer','MEAN','','L1',6],['Yash Thakur','React','','L1',5]
+];
+const BUS=['Digital Experience','Enterprise Apps','Mobility','Cloud Platforms'];
+const TAS=['Priya Nair','Ananya Rao','Deepak Sharma'];
+const CF=['Aarav','Diya','Ishaan','Myra','Kabir','Saanvi','Vihaan','Anika','Reyansh','Kiara','Advait','Navya','Arnav','Tara','Dhruv','Aisha','Krish','Meher','Rudra','Zoya','Neil','Riya','Om','Sara','Ayaan','Pari','Atharv','Ira','Shaurya','Mira'];
+const CL=['Sharma','Iyer','Nair','Reddy','Gupta','Kulkarni','Bose','Menon','Patel','Rao','Chatterjee','Pillai','Joshi','Khanna','Das','Shetty','Verma','Mehta'];
+
+/* ---------- seed ---------- */
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function seed(){
+  const R=rng(20261002), pick=a=>a[Math.floor(R()*a.length)], between=(a,b)=>a+Math.floor(R()*(b-a+1));
+  const pickN=(a,n)=>a.slice().sort(()=>R()-.5).slice(0,n).sort((x,y)=>a.indexOf(x)-a.indexOf(y));
+  const PENDING=new Set([9,17,24,30,35,36]);
+  const panels=SPEC.map((s,i)=>({id:'p'+(i+1),name:s[0],skills:[s[1],s[2]].filter(Boolean),levels:s[3]==='L1L2'?['L1','L2']:[s[3]],exp:s[4],bu:BUS[i%4],
+    weekend:i===0?true:R()<0.62,cap:between(4,7),submitted:!PENDING.has(i),submittedOn:PENDING.has(i)?null:`2026-09-${String(between(22,30)).padStart(2,'0')}`,reminders:PENDING.has(i)?1:0}));
+  const avail={};
+  for(const p of panels){avail[p.id]={}; if(!p.submitted) continue;
+    for(const d of DAYS){
+      const drv=driveOn(d);
+      if(isWE(d)){ if(!drv||!p.weekend||!p.skills.some(s=>drv.demand[s])) continue;
+        avail[p.id][d]=R()<0.78?{s:'A',slots:[...WE_SLOTS]}:{s:'N',slots:[],reason:'Personal commitment'}; continue;}
+      const r=R();
+      if(r<0.36) avail[p.id][d]={s:'A',slots:pickN(WD_SLOTS,between(2,4))};
+      else if(r<0.64) avail[p.id][d]={s:'P',slots:pickN(WD_SLOTS,1)};
+      else avail[p.id][d]={s:'N',slots:[],reason:pick(['Project commitment','Client meeting','Leave plan','Release week'])};
+    }}
+  // fixed story points
+  avail.p1['2026-10-01']={s:'A',slots:['11:00','14:30']};
+  avail.p24['2026-10-06']={s:'A',slots:['11:00','14:30','16:00']};
+  const interviews=[]; let n=0;
+  const mk=(p,d,t,skill,round,status)=>{const drv=driveOn(d);const past=d<TODAY;
+    const iv={id:'i'+(++n),cand:`${pick(CF)} ${pick(CL)}`,cexp:between(2,12),skill,round,date:d,time:t,pid:p.id,
+      mode:drv?'Face to face':(R()<0.8?'Virtual':'Face to face'),ta:pick(TAS),status,driveId:drv?drv.id:null,feedback:null};
+    if(past&&(status==='Selected'||status==='Rejected')) iv.feedback={rating:status==='Selected'?between(4,5):between(2,3),decision:status,comment:status==='Selected'?'Strong fundamentals, clear communication.':'Gaps in core concepts for this level.'};
+    interviews.push(iv); return iv;};
+  for(const p of panels) for(const d of DAYS){const a=avail[p.id][d]; if(!a||a.s==='N') continue;
+    const drv=driveOn(d);
+    const prob=drv?({d1:.55,d2:.3,d3:.15,d4:.05})[drv.id]:d<TODAY?.8:d<='2026-10-09'?.55:d<='2026-10-16'?.32:.12;
+    for(const t of a.slots){ if(R()>=prob) continue;
+      const skill=drv?p.skills.find(s=>drv.demand[s]):(R()<0.75?p.skills[0]:p.skills[p.skills.length-1]);
+      const round=p.levels.length>1?(R()<.5?'L1':'L2'):p.levels[0];
+      let status='Scheduled'; if(d<TODAY){const r=R();status=r<.45?'Selected':r<.8?'Rejected':r<.92?'Feedback pending':'No show';}
+      mk(p,d,t,skill,round,status);}}
+  // Rahul has a feedback task
+  const rp=interviews.filter(i=>i.pid==='p1'&&i.date<TODAY);
+  if(rp.length) {rp[0].status='Feedback pending'; rp[0].feedback=null;}
+  else mk(panels[0],'2026-10-01','11:00','React','L1','Feedback pending');
+  // Ritu (p24) has two bookings on 6 Oct, then reports an emergency
+  for(const t of ['11:00','14:30']) if(!interviews.some(i=>i.pid==='p24'&&i.date==='2026-10-06'&&i.time===t)) mk(panels[23],'2026-10-06',t,'Java','L1','Scheduled');
+  avail.p24['2026-10-06']={s:'N',slots:[],reason:'Emergency'};
+  interviews.forEach(i=>{if(i.pid==='p24'&&i.date==='2026-10-06'&&i.status==='Scheduled'){i.status='Needs reassignment';i.impact='Emergency'}});
+  // demand: shaped against offered capacity so the story holds
+  const F={'Java|L2':1.24,'React|L1':1.12,'Angular|L2':1.18,'React + Next.js|L2':1,'MEAN|L1':.55};
+  const demand={};
+  for(const s of SKILLS){demand[s]={};for(const L of ['L1','L2']){
+    let off=0; for(const p of panels) if(p.skills.includes(s)&&p.levels.includes(L)) for(const d of WEEKDAYS){const a=avail[p.id][d]; if(a&&a.s!=='N') off+=a.slots.length;}
+    demand[s][L]=Math.max(L==='L1'?10:6,Math.round(off*(F[s+'|'+L]??(L==='L1'?.74:.7))));}}
+  const ts=(d,h)=>`${d} ${h}`;
+  return {v:1,panels,avail,interviews,demand,seq:n,
+    roster:{weekday:{versions:[{v:1,t:ts('2026-09-25','18:10'),by:'Girish Dunga'},{v:2,t:ts('2026-09-29','11:40'),by:'Girish Dunga'}],changes:3},weekend:{versions:[],changes:0}},
+    notifs:[
+      {id:1,to:'coordinator',t:ts('2026-10-02','08:12'),text:'Ritu Saxena reported Emergency unavailability for Tue 6 Oct. 2 booked interviews need reassignment.',read:false},
+      {id:2,to:'coordinator',t:ts('2026-10-01','09:00'),text:'Availability agent: 6 panel members have not submitted October availability. First reminder sent on 28 Sep.',read:false},
+      {id:3,to:'ta',t:ts('2026-09-29','11:40'),text:'Weekday roster v2 for October was published by Girish Dunga.',read:false},
+      {id:4,to:'ta',t:ts('2026-10-02','08:15'),text:'2 Java L1 interviews on Tue 6 Oct are on hold while the coordinator reassigns a panel.',read:false},
+      {id:5,to:'p1',t:ts('2026-10-01','17:30'),text:'Please submit feedback for your React L1 interview on Thu 1 Oct.',read:false},
+      {id:6,to:'p1',t:ts('2026-09-30','10:00'),text:'Weekend drive request: React & Java bulk drive, Sat 10 Oct, Bengaluru Tower B. Confirm your slots in My availability.',read:false},
+      {id:7,to:'hm',t:ts('2026-10-02','07:30'),text:'Weekly capacity digest: Java L2 and React L1 are below planned demand for October.',read:false}
+    ],nid:8,
+    audit:[
+      {t:ts('2026-09-25','18:10'),who:'Girish Dunga',what:'Published weekday roster v1 for October'},
+      {t:ts('2026-09-28','09:00'),who:'Availability agent',what:'Sent reminders to 6 panel members with pending October availability'},
+      {t:ts('2026-09-29','11:40'),who:'Girish Dunga',what:'Published weekday roster v2 for October'},
+      {t:ts('2026-10-02','08:12'),who:'Ritu Saxena',what:'Reported Emergency unavailability for Tue 6 Oct'},
+      {t:ts('2026-10-02','08:12'),who:'Conflict agent',what:'Flagged 2 Java L1 interviews on Tue 6 Oct for reassignment'}
+    ]};
+}
+
+/* ---------- state ---------- */
+const KEY='panelpick-demo-v1';
+let S; try{S=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){S=null}
+if(!S||S.v!==1) S=seed();
+else{try{S=JSON.parse(JSON.stringify(S).replace(/Meera Iyer|Vikram Desai/g,'Girish Dunga'))}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+let saved={}; try{saved=JSON.parse(localStorage.getItem(KEY+'-ui')||'{}')}catch(e){}
+const ui={role:saved.role||'coordinator',view:saved.view||'overview',rosterMode:'weekday',rosterLevel:'All',
+  pf:{skill:'',level:'',status:''},sf:{skill:'React',round:'L1',range:'next7',time:'',pid:''},ivf:'upcoming',hmFunnel:'q3',chat:[]};
+function applyTheme(t){if(t)document.documentElement.dataset.theme=t;else delete document.documentElement.dataset.theme;
+  const dark=t?t==='dark':matchMedia('(prefers-color-scheme: dark)').matches;const b=$('#themeBtn');
+  b.textContent=dark?'\u2600':'\u263E';b.title=b.ariaLabel=dark?'Switch to light mode':'Switch to dark mode';}
+let theme=null;try{theme=localStorage.getItem(KEY+'-theme')}catch(e){}
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if(!theme)applyTheme(null)});
+function saveUi(){try{localStorage.setItem(KEY+'-ui',JSON.stringify({role:ui.role,view:ui.view}))}catch(e){}}
+
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $=s=>document.querySelector(s);
+const P=id=>S.panels.find(p=>p.id===id);
+const nowStr=()=>{const d=new Date();return `${TODAY} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`};
+function notify(to,text){S.notifs.unshift({id:S.nid++,to,t:nowStr(),text,read:false})}
+function log(who,what){S.audit.push({t:nowStr(),who,what})}
+function toast(msg){const t=$('#toast');t.textContent=msg;t.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>t.hidden=true,3600)}
+const lvl=L=>`<span class="lvl ${L==='L2'?'l2':''}">${L}</span>`;
+const pct=(a,b)=>b?Math.round(a/b*100):0;
+
+/* ---------- derived data ---------- */
+let C={};
+function compute(){
+  const booked=new Map();
+  for(const i of S.interviews) if(i.status!=='Cancelled'&&i.status!=='Needs reassignment') booked.set(`${i.pid}|${i.date}|${i.time}`,i);
+  const slots=[];
+  for(const p of S.panels){const av=S.avail[p.id]||{};
+    for(const d of DAYS){const a=av[d]; if(!a||a.s==='N') continue;
+      for(const t of a.slots) slots.push({p,date:d,time:t,iv:booked.get(`${p.id}|${d}|${t}`)||null});}}
+  C={booked,slots};
+}
+function cap(skill,L,filter=()=>true){let off=0,bk=0;
+  for(const s of C.slots) if(s.p.skills.includes(skill)&&s.p.levels.includes(L)&&filter(s)){off++; if(s.iv) bk++;}
+  return {off,bk,open:off-bk};}
+function weekLoad(pid,d){const w=wk(d);return S.interviews.filter(i=>i.pid===pid&&wk(i.date)===w&&i.status!=='Cancelled'&&i.status!=='Needs reassignment').length}
+function shortfalls(){const out=[];
+  for(const s of SKILLS) for(const L of ['L1','L2']){const c=cap(s,L,x=>!isWE(x.date)); const dm=S.demand[s][L];
+    if(c.off<dm) out.push({skill:s,L,off:c.off,dm,gap:dm-c.off,pctShort:Math.round((dm-c.off)/dm*100)});}
+  return out.sort((a,b)=>b.pctShort-a.pctShort);}
+function l2Gaps(days=10){const out=[];const end=addDays(TODAY,days);
+  for(const s of SKILLS){const ds=WEEKDAYS.filter(d=>d>TODAY&&d<=end&&cap(s,'L2',x=>x.date===d).off===0); if(ds.length) out.push({skill:s,days:ds});}
+  return out;}
+function overloads(){const out=[];
+  for(const p of S.panels) for(const w of [2,3,4,5]){const n=S.interviews.filter(i=>i.pid===p.id&&wk(i.date)===w&&i.date>=TODAY&&i.status==='Scheduled').length; if(n>p.cap) out.push({p,w,n});}
+  return out;}
+const weekStart=w=>DAYS.find(d=>wk(d)===w&&dw(d)===1)||DAYS.find(d=>wk(d)===w);
+function assignDrive(drv){const used=new Set();const rows=[];
+  const free=(s,L)=>S.panels.filter(p=>!used.has(p.id)&&p.skills.includes(s)&&p.levels.includes(L)&&S.avail[p.id]?.[drv.date]?.s&&S.avail[p.id][drv.date].s!=='N');
+  for(const [s,c] of Object.entries(drv.demand)){
+    const needL2=Math.ceil(c*0.4/5), needL1=Math.ceil(c/5);
+    const l2=free(s,'L2').sort((a,b)=>a.levels.length-b.levels.length||(a.skills[0]===s?-1:1)).slice(0,needL2); l2.forEach(p=>used.add(p.id));
+    const l1=free(s,'L1').sort((a,b)=>(a.skills[0]===s?-1:1)).slice(0,needL1); l1.forEach(p=>used.add(p.id));
+    rows.push({skill:s,c,needL1,needL2,l1,l2});}
+  const need=rows.reduce((a,r)=>a+r.needL1+r.needL2,0), got=rows.reduce((a,r)=>a+Math.min(r.l1.length,r.needL1)+Math.min(r.l2.length,r.needL2),0);
+  return {rows,need,got,ready:pct(got,need)};}
+function pending(){return S.panels.filter(p=>!p.submitted)}
+function impacted(){return S.interviews.filter(i=>i.status==='Needs reassignment')}
+function insights(){
+  const out=[];
+  const imp=impacted(); if(imp.length) out.push({sev:'critical',title:`${imp.length} booked interview${imp.length>1?'s':''} need${imp.length>1?'':'s'} a new panel`,body:`Triggered by reported unavailability. Candidates are on hold until reassigned.`,act:'go',arg:'exceptions',label:'Reassign'});
+  for(const f of shortfalls().slice(0,4)){
+    const owners=S.panels.filter(p=>p.skills.includes(f.skill)&&p.levels.includes(f.L));
+    if(f.L==='L2'||f.off===0) out.push({sev:f.off===0?'critical':'warning',title:`${sk(f.skill)} ${f.L} panel capacity may fall short by ${f.pctShort}%`,body:`${f.off} slots offered against ${f.dm} planned ${f.L} interviews this month. ${owners.length} panel member${owners.length===1?'':'s'} mapped${owners.filter(p=>!p.submitted).length?`, ${owners.filter(p=>!p.submitted).map(p=>p.name).join(', ')} not yet submitted`:''}.`,act:'askSlots',arg:f.skill+'|'+f.L,label:'Ask for slots'});
+    else { // weekly recommendation
+      let worst=null; for(const w of [2,3,4,5]){const wd=WEEKDAYS.filter(d=>wk(d)===w);const dm=Math.round(f.dm*wd.length/WEEKDAYS.length);const off=cap(f.skill,f.L,x=>!isWE(x.date)&&wk(x.date)===w).off; if(!worst||dm-off>worst.gap) worst={w,gap:dm-off};}
+      out.push({sev:'warning',title:`Week of ${fd(weekStart(worst.w)).replace(/^\w+ /,'')} ${sk(f.skill)} demand is high`,body:`Suggest allocating ${Math.max(worst.gap,f.gap)} additional ${f.L} slots. October has ${f.off} ${f.L} slots for ${f.dm} planned interviews.`,act:'askSlots',arg:f.skill+'|'+f.L,label:'Ask for slots'});}
+  }
+  for(const g of l2Gaps().slice(0,2)) out.push({sev:'warning',title:`${sk(g.skill)} L2 coverage unavailable on ${g.days.slice(0,3).map(fd).join(', ')}${g.days.length>3?` and ${g.days.length-3} more`:''}`,body:'No L2 panel has offered a slot on these days. TA cannot book L2 rounds there.',act:'askSlots',arg:g.skill+'|L2',label:'Ask for slots'});
+  const pend=pending(); if(pend.length) out.push({sev:pct(S.panels.length-pend.length,S.panels.length)<90?'warning':'info',title:`${pend.length} panel members have not submitted October availability`,body:`Submission rate ${pct(S.panels.length-pend.length,S.panels.length)}% against a 90% target. The availability agent can follow up now.`,act:'remindAll',label:'Send reminders'});
+  for(const drv of DRIVES.filter(d=>d.date>=TODAY)){const a=assignDrive(drv); if(a.ready<100){const miss=a.rows.filter(r=>r.l1.length<r.needL1||r.l2.length<r.needL2).map(r=>`${sk(r.skill)} ${r.l1.length<r.needL1?`${r.needL1-r.l1.length} L1`:''}${r.l1.length<r.needL1&&r.l2.length<r.needL2?' + ':''}${r.l2.length<r.needL2?`${r.needL2-r.l2.length} L2`:''}`);
+    out.push({sev:'info',title:`${drv.name} (${fd(drv.date)}) is ${a.ready}% staffed`,body:`Still needed: ${miss.join('; ')}.`,act:'requestDrive',arg:drv.id,label:'Request panels'});break;}}
+  for(const o of overloads().slice(0,1)) out.push({sev:'info',title:`${o.p.name} has ${o.n} interviews in the week of ${fd(weekStart(o.w)).replace(/^\w+ /,'')}`,body:`Weekly limit is ${o.p.cap}. Consider moving a slot to a lighter panel.`,act:'openPanel',arg:o.p.id,label:'View panel'});
+  return out;
+}
+function recommend({skill,round,cexp,from,exactDate,exactTime,exclude,limit=3}){
+  const sen=cexp>=8?'Senior':cexp>=4?'Mid':'Junior';const out=[];
+  for(const p of S.panels){ if(p.id===exclude||!p.skills.includes(skill)||!p.levels.includes(round)) continue;
+    const open=C.slots.filter(s=>s.p===p&&!s.iv&&s.date>=from&&(!exactDate||s.date===exactDate)&&(!exactTime||s.time===exactTime)).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+    if(!open.length) continue; const sl=open[0]; const prim=p.skills[0]===skill;
+    let sc=prim?40:28; const why=[`${sk(skill)} ${round}${prim?'':' (secondary)'}`];
+    const fit=sen==='Senior'?(p.exp>=10?20:p.exp>=8?12:4):sen==='Mid'?(p.exp>=7?18:12):16; sc+=fit; why.push(`${p.exp} yrs, ${fit>=16?'good fit for':fit>=12?'workable for':'junior for'} a ${sen.toLowerCase()} candidate`);
+    const load=weekLoad(p.id,sl.date); sc+=Math.max(0,20-Math.round(load/p.cap*20)); why.push(`${load}/${p.cap} interviews that week`);
+    const days=dnum(sl.date)-dnum(from); sc+=Math.max(0,20-days*2); why.push(`Earliest ${fd(sl.date)} ${sl.time}`);
+    out.push({p,slot:sl,score:Math.min(99,sc),why});}
+  return out.sort((a,b)=>b.score-a.score).slice(0,limit);
+}
+function reconcile(by){const newly=[];
+  for(const i of S.interviews){ if(i.status!=='Scheduled'||i.date<TODAY) continue; const a=S.avail[i.pid]?.[i.date];
+    if(!a||a.s==='N'||!a.slots.includes(i.time)){i.status='Needs reassignment';i.impact=a?.reason||'Slot withdrawn';newly.push(i);}}
+  return newly;}
+
+/* ---------- shell ---------- */
+const ACCOUNTS=[
+  {email:'girish@talentblue.demo',pw:'demo123',name:'Girish Dunga',roles:['coordinator','hm']},
+  {email:'priya@talentblue.demo',pw:'demo123',name:'Priya Nair',roles:['ta']},
+  {email:'rahul@talentblue.demo',pw:'demo123',name:'Rahul Menon',roles:['panel']}];
+let acct=null;try{const e=localStorage.getItem(KEY+'-session');acct=ACCOUNTS.find(a=>a.email===e)||null}catch(e){}
+function showAuth(){
+  $('#login').hidden=!!acct;$('#app').hidden=!acct;
+  if(!acct){closeDrawer();$('#demo-acc').innerHTML=ACCOUNTS.map(a=>`<button type="button" data-act="demoFill" data-arg="${a.email}"><b>${esc(a.name)}</b><span>${a.roles.map(r=>ROLES[r].title).join(', ')}</span></button>`).join('');$('#li-email').focus();return;}
+  if(!acct.roles.includes(ui.role)){ui.role=acct.roles[0];ui.view=ROLES[ui.role].nav[0][0];saveUi();}
+  $('#role').innerHTML=acct.roles.map(r=>`<option value="${r}">${ROLES[r].title}</option>`).join('');
+  document.querySelector('.role-pick').hidden=acct.roles.length<2;
+  render();
+}
+function signIn(){const email=$('#li-email').value.trim().toLowerCase(),pw=$('#li-pw').value,err=$('#li-err');
+  const a=ACCOUNTS.find(x=>x.email===email&&x.pw===pw);
+  if(!a){err.textContent=email&&pw?'Email or password is incorrect.':'Enter your email and password.';err.hidden=false;$('#li-pw').value='';(email?$('#li-pw'):$('#li-email')).focus();return;}
+  err.hidden=true;acct=a;try{localStorage.setItem(KEY+'-session',a.email)}catch(e){}
+  log(a.name,'Signed in');save();$('#loginform').reset();showAuth();toast(`Signed in as ${a.name}`);}
+function setRole(r){if(!acct||!acct.roles.includes(r))return;ui.role=r;ui.view=ROLES[r].nav[0][0];saveUi();render();}
+function go(v){ui.view=v;saveUi();render();window.scrollTo(0,0);}
+function render(){
+  if(!acct) return;
+  compute();
+  if(!ROLES[ui.role].nav.some(n=>n[0]===ui.view)) ui.view=ROLES[ui.role].nav[0][0];
+  $('#role').value=ui.role;
+  $('#who').textContent=`${ROLES[ui.role].user} · ${ROLES[ui.role].title}`;
+  const badge={exceptions:impacted().length,myinterviews:S.interviews.filter(i=>i.pid===ME&&i.status==='Feedback pending').length};
+  $('#nav').innerHTML=ROLES[ui.role].nav.map(([k,l])=>`<button data-act="go" data-arg="${k}" ${ui.view===k?'aria-current="page"':''}>${l}${badge[k]?`<span class="count">${badge[k]}</span>`:''}</button>`).join('');
+  $('#main').innerHTML=(VIEWS[ui.view]||(()=>''))();
+}
+function header(title,sub,actions=''){
+  const tgt=ui.role==='panel'?ME:ui.role; const unread=S.notifs.filter(n=>n.to===tgt&&!n.read).length;
+  return `<div class="topbar"><div><div class="eyebrow">October 2026 · ${esc(ROLES[ui.role].title)}</div><h1>${title}</h1>${sub?`<p class="sub">${sub}</p>`:''}</div>
+  <div class="top-actions">${actions}<button class="btn bell" data-act="notifs" aria-label="Notifications, ${unread} unread">Notifications${unread?`<span class="dot">${unread}</span>`:''}</button></div></div>`;
+}
+
+/* ---------- views ---------- */
+const VIEWS={};
+VIEWS.overview=()=>{
+  const sub=S.panels.length-pending().length, wdSlots=C.slots.filter(s=>!isWE(s.date)), weSlots=C.slots.filter(s=>isWE(s.date));
+  const bk=C.slots.filter(s=>s.iv).length, ins=insights(), r=S.roster;
+  const lastWd=r.weekday.versions.at(-1), lastWe=r.weekend.versions.at(-1);
+  return header('Welcome back, Girish','Here is where October interview capacity stands. The agents below have already read every availability update.',`<button class="btn primary" data-act="go" data-arg="roster">Open roster planner</button>`)+
+  `<div class="kpis">
+    <div class="kpi"><span class="t">Availability submitted</span><span class="v">${sub}<small> / ${S.panels.length}</small></span><span class="t">${pct(sub,S.panels.length)}% · target 90%</span></div>
+    <div class="kpi"><span class="t">Weekday slots offered</span><span class="v num">${wdSlots.length}</span><span class="t">${wdSlots.filter(s=>!s.iv).length} still open</span></div>
+    <div class="kpi"><span class="t">Weekend drive slots</span><span class="v num">${weSlots.length}</span><span class="t">across ${DRIVES.length} drives</span></div>
+    <div class="kpi"><span class="t">Slot utilisation</span><span class="v">${pct(bk,C.slots.length)}<small>%</small></span><span class="t">${bk} interviews booked</span></div>
+    <div class="kpi"><span class="t">Need reassignment</span><span class="v num" style="color:${impacted().length?'var(--bad)':'inherit'}">${impacted().length}</span><span class="t">from reported unavailability</span></div>
+  </div>
+  <div class="grid cols-3-1">
+    <section class="card"><div class="card-head"><h2>AI insights</h2><span class="muted" style="font-size:.8rem">Conflict, slot and drive agents</span></div>
+      <div class="insights">${ins.map(i=>`<div class="insight"><span class="sev ${i.sev}" aria-label="${i.sev}"></span><div><b>${esc(i.title)}</b><p>${esc(i.body)}</p></div>${i.act?`<button class="btn small" data-act="${i.act}" data-arg="${esc(i.arg||'')}">${i.label}</button>`:''}</div>`).join('')||'<p class="muted">No issues detected.</p>'}</div></section>
+    <div class="grid" style="align-content:start">
+      <section class="card"><div class="card-head"><h2>Roster status</h2></div>
+        <div class="list">
+          <div class="li"><div><b>Weekday roster</b><div class="muted" style="font-size:.8rem">${lastWd?`v${lastWd.v} published ${lastWd.t.slice(5)}`:'Not published'}</div></div>${r.weekday.changes?`<span class="pill warn">${r.weekday.changes} changes since</span>`:'<span class="pill ok">Up to date</span>'}</div>
+          <div class="li"><div><b>Weekend drive roster</b><div class="muted" style="font-size:.8rem">${lastWe?`v${lastWe.v} published ${lastWe.t.slice(5)}`:'Not published yet'}</div></div>${lastWe?(r.weekend.changes?`<span class="pill warn">${r.weekend.changes} changes since</span>`:'<span class="pill ok">Up to date</span>'):'<span class="pill plain">Draft</span>'}</div>
+        </div></section>
+      <section class="card"><div class="card-head"><h2>Upcoming drives</h2><button class="btn ghost small" data-act="go" data-arg="drives">All drives</button></div>
+        <div class="list">${DRIVES.filter(d=>d.date>=TODAY).map(d=>{const a=assignDrive(d);return `<div class="li"><div style="min-width:0"><b>${fd(d.date)}</b><div class="muted" style="font-size:.8rem">${esc(d.name)}</div></div><div style="display:flex;align-items:center;gap:8px"><div class="meter we" style="width:70px"><i style="width:${a.ready}%"></i></div><span class="num" style="font-size:.8rem">${a.ready}%</span></div></div>`}).join('')}</div></section>
+    </div>
+  </div>`;
+};
+
+VIEWS.roster=()=>{
+  const mode=ui.rosterMode, L=ui.rosterLevel, r=S.roster[mode], last=r.versions.at(-1);
+  const levels=L==='All'?['L1','L2']:[L];
+  let grid='';
+  if(mode==='weekday'){
+    const cols=WEEKDAYS;
+    const max=Math.max(1,...SKILLS.flatMap(s=>cols.map(d=>levels.reduce((a,l)=>a+cap(s,l,x=>x.date===d).off,0))));
+    grid=`<div class="roster-wrap"><table class="roster"><thead><tr><th class="rowh">Technology</th>${cols.map(d=>`<th class="${d===TODAY?'today':''}">${DN[dw(d)].slice(0,2)}<br>${dnum(d)}</th>`).join('')}</tr></thead><tbody>
+    ${SKILLS.map(s=>{const daily=levels.reduce((a,l)=>a+S.demand[s][l],0)/WEEKDAYS.length;
+      return `<tr><th class="rowh">${esc(sk(s))}</th>${cols.map(d=>{
+        const c=levels.map(l=>cap(s,l,x=>x.date===d)); const off=c.reduce((a,x)=>a+x.off,0), open=c.reduce((a,x)=>a+x.open,0);
+        const l2=levels.includes('L2')?cap(s,'L2',x=>x.date===d).off:1; const past=d<TODAY;
+        const cls=[past?'past':'',!past&&l2===0?'gap':(!past&&off<daily*0.8?'short':'')].join(' ');
+        const bg=off?`background:color-mix(in oklab,var(--accent) ${Math.round(8+off/max*52)}%,var(--surface))`:'';
+        const tip=`${sk(s)}, ${fd(d)}: ${off} slots offered, ${off-open} booked, ${open} open${l2===0?'. No L2 panel available':''}`;
+        return `<td class="${cls}"><button style="${bg}" data-act="cell" data-arg="${esc(s)}|${d}" title="${esc(tip)}" aria-label="${esc(tip)}"><b style="color:${off/max>.55?'var(--accent-ink)':'inherit'}">${open}</b><small style="color:${off/max>.55?'var(--accent-ink)':'var(--muted)'}">${off-open}/${off}</small></button></td>`;}).join('')}</tr>`;}).join('')}
+    </tbody></table></div>
+    <div class="legend"><span><b class="mono">7</b> open slots</span><span class="mono">2/9 booked of offered</span><span><i class="sw" style="background:color-mix(in oklab,var(--accent) 50%,var(--surface))"></i>More capacity</span><span><i class="sw" style="border:1.5px solid var(--bad)"></i>No L2 coverage</span><span><i class="sw" style="border:1.5px dashed var(--warn)"></i>Below daily demand</span></div>`;
+  } else {
+    grid=`<div class="grid cols-2">${DRIVES.map(drv=>{const a=assignDrive(drv);return `<section class="card"><div class="card-head"><div><div class="drive-date">${fd(drv.date)}</div><b>${esc(drv.name)}</b> <span class="muted">· ${esc(drv.loc)}</span></div><span class="pill ${a.ready===100?'ok':a.ready>=70?'warn':'bad'}">${a.ready}% staffed</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Technology</th><th class="r">Candidates</th><th class="r">L1 panels</th><th class="r">L2 panels</th></tr></thead><tbody>
+      ${a.rows.map(r=>`<tr class="clickable" data-act="cell" data-arg="${esc(r.skill)}|${drv.date}"><td>${esc(sk(r.skill))}</td><td class="r num">${r.c}</td><td class="r num" style="color:${r.l1.length<r.needL1?'var(--bad)':'inherit'}">${r.l1.length}/${r.needL1}</td><td class="r num" style="color:${r.l2.length<r.needL2?'var(--bad)':'inherit'}">${r.l2.length}/${r.needL2}</td></tr>`).join('')}
+      </tbody></table></div></section>`}).join('')}</div>`;
+  }
+  const status=last?`Version ${last.v} published ${last.t.slice(5)} by ${esc(last.by)}${r.changes?` · <b>${r.changes} availability change${r.changes>1?'s':''} since</b>`:' · up to date'}`:'Not published yet. Generate the roster to consolidate weekend availability.';
+  return header('Roster planner','The roster is built from submitted availability, so it updates itself when panel members change their plans. Publish to share a new version with TA.',
+    `<button class="btn" data-act="generate">Auto-generate roster</button><button class="btn primary" data-act="publish">Publish ${mode==='weekday'?'weekday':'weekend'} roster</button>`)+
+  `<div class="filters">
+    <div class="seg" role="group" aria-label="Roster type"><button aria-pressed="${mode==='weekday'}" data-act="rmode" data-arg="weekday">Weekday interviews</button><button aria-pressed="${mode==='weekend'}" data-act="rmode" data-arg="weekend">Weekend drives</button></div>
+    ${mode==='weekday'?`<div class="seg" role="group" aria-label="Interview level">${['All','L1','L2'].map(l=>`<button aria-pressed="${L===l}" data-act="rlevel" data-arg="${l}">${l==='All'?'L1 + L2':l}</button>`).join('')}</div>`:''}
+  </div>
+  <div class="banner ${r.changes||!last?'warn':''}"><span>${status}</span>${r.versions.length?`<button class="btn small" data-act="versions" data-arg="${mode}">Version history</button>`:''}</div>
+  ${grid}`;
+};
+
+VIEWS.panels=()=>{
+  const f=ui.pf;
+  const list=S.panels.filter(p=>(!f.skill||p.skills.includes(f.skill))&&(!f.level||p.levels.includes(f.level))&&(!f.status||(f.status==='pending'?!p.submitted:p.submitted)));
+  return header('Panel directory',`${S.panels.length} panel members mapped by technology, interview level, experience and weekend eligibility.`,
+    `<button class="btn" data-act="remindAll" ${pending().length?'':'disabled'}>Remind ${pending().length} pending</button><button class="btn primary" data-act="openPanel" data-arg="new">Add panel member</button>`)+
+  `<div class="filters">
+    <div class="field"><label for="pf-skill">Technology</label><select id="pf-skill" data-pf="skill"><option value="">All</option>${SKILLS.map(s=>`<option ${f.skill===s?'selected':''} value="${esc(s)}">${esc(sk(s))}</option>`).join('')}</select></div>
+    <div class="field"><label for="pf-level">Level</label><select id="pf-level" data-pf="level"><option value="">L1 and L2</option><option ${f.level==='L1'?'selected':''}>L1</option><option ${f.level==='L2'?'selected':''}>L2</option></select></div>
+    <div class="field"><label for="pf-status">October availability</label><select id="pf-status" data-pf="status"><option value="">Any</option><option value="pending" ${f.status==='pending'?'selected':''}>Pending</option><option value="submitted" ${f.status==='submitted'?'selected':''}>Submitted</option></select></div>
+  </div>
+  <section class="card" style="padding:8px 12px"><div class="tbl-wrap"><table>
+   <thead><tr><th>Name</th><th>Technologies</th><th>Level</th><th class="r">Exp</th><th>Business unit</th><th>Weekend</th><th class="r">Slots · booked</th><th>October</th></tr></thead>
+   <tbody>${list.map(p=>{const sl=C.slots.filter(s=>s.p===p);return `<tr class="clickable" data-act="openPanel" data-arg="${p.id}"><td><b>${esc(p.name)}</b></td><td>${p.skills.map(s=>`<span class="tag">${esc(sk(s))}</span>`).join(' ')}</td><td>${p.levels.map(lvl).join(' ')}</td><td class="r num">${p.exp}y</td><td class="muted">${esc(p.bu)}</td><td>${p.weekend?'<span class="pill we">Eligible</span>':'<span class="muted">No</span>'}</td><td class="r num">${sl.length} · ${sl.filter(s=>s.iv).length}</td><td>${p.submitted?'<span class="pill ok">Submitted</span>':`<span class="pill warn">Pending</span>`}</td></tr>`}).join('')||`<tr><td colspan="8" class="empty">No panel members match these filters.</td></tr>`}</tbody></table></div></section>`;
+};
+
+function driveCard(drv){
+  const a=assignDrive(drv); const past=drv.date<TODAY; const booked=S.interviews.filter(i=>i.driveId===drv.id&&i.status!=='Cancelled').length;
+  const total=Object.values(drv.demand).reduce((x,y)=>x+y,0);
+  return `<section class="card drive"><div class="drive-head"><div><div class="drive-date">${fd(drv.date)}</div><h2>${esc(drv.name)}</h2><span class="muted">${esc(drv.loc)} · face to face · ${total} candidates expected</span></div>
+    <div style="text-align:right"><span class="pill ${a.ready===100?'ok':a.ready>=70?'warn':'bad'}">${a.ready}% staffed</span><div class="muted" style="font-size:.8rem;margin-top:4px">${booked} interviews booked</div></div></div>
+    <div class="tbl-wrap"><table><thead><tr><th>Technology</th><th class="r">Candidates</th><th>L1 panels</th><th>L2 panels</th></tr></thead><tbody>
+    ${a.rows.map(r=>`<tr><td>${esc(sk(r.skill))}</td><td class="r num">${r.c}</td><td><span class="num" style="color:${r.l1.length<r.needL1?'var(--bad)':'inherit'}">${r.l1.length}/${r.needL1}</span> <span class="muted" style="font-size:.78rem">${r.l1.map(p=>esc(p.name.split(' ')[0])).join(', ')}</span></td><td><span class="num" style="color:${r.l2.length<r.needL2?'var(--bad)':'inherit'}">${r.l2.length}/${r.needL2}</span> <span class="muted" style="font-size:.78rem">${r.l2.map(p=>esc(p.name.split(' ')[0])).join(', ')}</span></td></tr>`).join('')}
+    </tbody></table></div>
+    <p class="note we">Drive planning agent: ${a.rows.map(r=>`${sk(r.skill)} ${r.c} candidates need ${r.needL1} L1 and ${r.needL2} L2 panels`).join('; ')}. Each panel covers 5 slots on the day.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn small" data-act="driveRoster" data-arg="${drv.id}">View drive roster</button>
+      ${ui.role==='coordinator'&&!past&&a.ready<100?`<button class="btn small primary" data-act="requestDrive" data-arg="${drv.id}">Request panel participation</button>`:''}
+      ${ui.role==='ta'&&!past?`<button class="btn small primary" data-act="taDrive" data-arg="${drv.date}">Book drive slots</button>`:''}
+    </div></section>`;
+}
+VIEWS.drives=()=>header('Weekend drives','Bulk hiring days planned for October, with panel needs forecast from expected candidate volume.')+`<div class="grid cols-2">${DRIVES.map(driveCard).join('')}</div>`;
+
+VIEWS.exceptions=()=>{
+  const imp=impacted();
+  const conf=[...l2Gaps().map(g=>({t:`${sk(g.skill)} L2 coverage unavailable on ${g.days.map(fd).join(', ')}`,s:'warning'})),
+    ...overloads().map(o=>({t:`${o.p.name} is booked ${o.n} times in the week of ${fd(weekStart(o.w)).replace(/^\w+ /,'')} (limit ${o.p.cap})`,s:'info'}))];
+  return header('Exceptions','Unavailability reported by panel members lands here with the interviews it affects. The panel assignment agent suggests a replacement for each.')+
+  `<section class="card" style="margin-bottom:16px"><div class="card-head"><h2>Interviews needing a new panel</h2><span class="pill ${imp.length?'bad':'ok'}">${imp.length} open</span></div>
+  ${imp.length?`<div class="list">${imp.map(i=>{const p=P(i.pid);const rec=recommend({skill:i.skill,round:i.round,cexp:i.cexp,from:i.date,exactDate:i.date,exactTime:i.time,exclude:i.pid,limit:1})[0]||recommend({skill:i.skill,round:i.round,cexp:i.cexp,from:i.date<TODAY?TODAY:i.date,exclude:i.pid,limit:1})[0];
+    return `<div class="li" style="align-items:flex-start;flex-wrap:wrap"><div style="min-width:0;flex:1 1 280px"><b>${esc(i.cand)}</b> · ${esc(sk(i.skill))} ${lvl(i.round)} · <span class="mono">${fd(i.date)} ${i.time}</span><div class="muted" style="font-size:.84rem">${esc(p.name)} unavailable (${esc(i.impact||'changed')}). TA owner ${esc(i.ta)}.</div>
+      ${rec?`<div style="font-size:.84rem;margin-top:4px">Suggested: <b>${esc(rec.p.name)}</b> at <span class="mono">${fd(rec.slot.date)} ${rec.slot.time}</span> <span class="score">${rec.score}% match</span>${rec.slot.date!==i.date||rec.slot.time!==i.time?' <span class="pill warn">new time</span>':' <span class="pill ok">same time</span>'}</div>`:'<div class="muted" style="font-size:.84rem">No matching panel has an open slot this month.</div>'}</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">${rec?`<button class="btn small primary" data-act="reassign" data-arg="${i.id}|${rec.p.id}|${rec.slot.date}|${rec.slot.time}">Reassign</button>`:''}<button class="btn small" data-act="reassignPick" data-arg="${i.id}">Other options</button><button class="btn small danger" data-act="cancelIv" data-arg="${i.id}">Cancel</button></div></div>`}).join('')}</div>`:'<p class="muted">Nothing to reassign. Every booked interview has a confirmed panel.</p>'}</section>
+  <section class="card"><div class="card-head"><h2>Conflicts detected</h2><span class="muted" style="font-size:.8rem">Next 10 working days</span></div>
+  ${conf.length?`<div class="insights">${conf.map(c=>`<div class="insight" style="grid-template-columns:auto minmax(0,1fr)"><span class="sev ${c.s}"></span><div>${esc(c.t)}</div></div>`).join('')}</div>`:'<p class="muted">No conflicts.</p>'}</section>`;
+};
+
+VIEWS.activity=()=>header('Activity log','Every availability submission, slot change and roster update, for audit.')+
+  `<section class="card" style="padding:8px 12px"><div class="tbl-wrap"><table><thead><tr><th>When</th><th>Who</th><th>What</th></tr></thead><tbody>
+  ${S.audit.slice().reverse().map(a=>`<tr><td class="mono" style="white-space:nowrap">${esc(a.t.slice(5))}</td><td style="white-space:nowrap">${esc(a.who)}</td><td>${esc(a.what)}</td></tr>`).join('')}</tbody></table></div></section>`;
+
+/* panel member */
+VIEWS.availability=()=>{
+  const me=P(ME), av=S.avail[ME];
+  const lead=(dw(DAYS[0])+6)%7;
+  const cells=Array(lead).fill('<div></div>').concat(DAYS.map(d=>{
+    const a=av[d], drv=driveOn(d), past=d<TODAY, we=isWE(d);
+    const bk=S.interviews.filter(i=>i.pid===ME&&i.date===d&&i.status!=='Cancelled').length;
+    const editable=!past&&(!we||(drv&&me.weekend));
+    const st=a?a.s:null;
+    const label=st==='A'?'Available':st==='P'?'Partial':st==='N'?'Not available':we?'':'Not set';
+    return `<button class="day ${st?'st-'+st:''} ${we?'we':''} ${!editable?'off':''} ${d===TODAY?'today':''}" ${editable?`data-act="editDay" data-arg="${d}"`:'tabindex="-1" aria-disabled="true"'} aria-label="${fd(d)} ${label}">
+      <span class="dn"><span>${dnum(d)}</span>${st?`<span class="pill ${st==='A'?'ok':st==='P'?'warn':'bad'}" style="padding:0 6px;font-size:.62rem">${st==='A'?'Avail':st==='P'?'Partial':'Off'}</span>`:''}</span>
+      ${drv?`<span class="drv">${esc(drv.name)}</span>`:we?'<span class="times">No drive</span>':''}
+      ${a&&a.slots.length?`<span class="times">${a.slots.join(' ')}</span>`:''}
+      ${a&&a.s==='N'&&a.reason?`<span class="times reason">${esc(a.reason)}</span>`:''}
+      ${bk?`<span class="bk">${bk} booked</span>`:''}</button>`;}));
+  const offered=Object.values(av).reduce((x,a)=>x+(a.s==='N'?0:a.slots.length),0);
+  return header('My availability',`Mark each day as available, partially available or not available, and pick the interview times that suit you. ${esc(me.skills.map(sk).join(', '))} · ${me.levels.join('/')}.`,
+    `<button class="btn" data-act="pattern">Set weekly pattern</button><button class="btn primary" data-act="unavail">Report unavailability</button>`)+
+  `<div class="banner ${me.submitted?'':'warn'}"><span>${me.submitted?`October availability submitted on ${fd(me.submittedOn).replace(/Oct/,'Sep').replace(/^\w+ /,'')}. You have offered <b>${offered}</b> slots. Changes reach your coordinator and the roster automatically.`:'Your October availability is not submitted yet. Your coordinator is waiting on it to publish the roster.'}</span>${me.submitted?'':`<button class="btn primary small" data-act="submitAvail">Submit availability</button>`}</div>
+  <section class="card"><div class="cal">${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(d=>`<div class="dh">${d}</div>`).join('')}${cells.join('')}</div>
+  <div class="legend"><span><i class="sw" style="background:var(--ok)"></i>Available</span><span><i class="sw" style="background:var(--warn)"></i>Partially available</span><span><i class="sw" style="background:var(--bad)"></i>Not available</span><span><i class="sw" style="background:var(--weekend-soft);border:1px solid var(--weekend)"></i>Weekend drive day</span></div></section>`;
+};
+VIEWS.myinterviews=()=>{
+  const mine=S.interviews.filter(i=>i.pid===ME&&i.status!=='Cancelled').sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+  const up=mine.filter(i=>i.date>=TODAY), past=mine.filter(i=>i.date<TODAY).reverse();
+  const row=i=>`<tr><td class="mono" style="white-space:nowrap">${fd(i.date)} ${i.time}</td><td><b>${esc(i.cand)}</b><div class="muted" style="font-size:.78rem">${i.cexp} yrs experience</div></td><td>${esc(sk(i.skill))} ${lvl(i.round)}</td><td>${i.driveId?'<span class="pill we">Drive</span> ':''}${esc(i.mode)}</td><td>${statusPill(i.status)}</td><td class="r">${i.status==='Feedback pending'?`<button class="btn small primary" data-act="feedback" data-arg="${i.id}">Submit feedback</button>`:''}</td></tr>`;
+  return header('My interviews','Interviews TA has booked into your slots.')+
+  `<section class="card" style="margin-bottom:16px"><div class="card-head"><h2>Upcoming</h2><span class="muted">${up.length}</span></div>${up.length?`<div class="tbl-wrap"><table><tbody>${up.map(row).join('')}</tbody></table></div>`:'<p class="muted">No interviews booked yet. TA can book any slot you offer.</p>'}</section>
+  <section class="card"><div class="card-head"><h2>Completed</h2></div>${past.length?`<div class="tbl-wrap"><table><tbody>${past.map(row).join('')}</tbody></table></div>`:'<p class="muted">None yet.</p>'}</section>`;
+};
+function statusPill(s){const m={'Scheduled':'info','Selected':'ok','Rejected':'plain','Feedback pending':'warn','No show':'plain','Needs reassignment':'bad','On hold':'warn'};return `<span class="pill ${m[s]||'plain'}">${esc(s)}</span>`}
+
+/* TA */
+VIEWS.slots=()=>{
+  const f=ui.sf; const end=f.range==='next7'?addDays(TODAY,7):f.range==='month'?'2026-10-31':f.range;
+  const start=f.range.startsWith('2026')?f.range:TODAY;
+  const list=C.slots.filter(s=>!s.iv&&s.date>=start&&s.date<=end&&s.p.skills.includes(f.skill)&&s.p.levels.includes(f.round)&&(!f.time||s.time===f.time)&&(!f.pid||s.p.id===f.pid))
+    .sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+  const byDay={}; list.forEach(s=>(byDay[s.date]=byDay[s.date]||[]).push(s));
+  const panelsFor=S.panels.filter(p=>p.skills.includes(f.skill)&&p.levels.includes(f.round));
+  const wdv=S.roster.weekday.versions.at(-1);
+  return header('Find a slot','Live open slots from the published roster. Book directly, or let the assignment agent pick the best panel for a candidate.',
+    `<button class="btn primary" data-act="smart">Smart schedule a candidate</button>`)+
+  `<div class="filters">
+    <div class="field"><label for="sf-skill">Technology</label><select id="sf-skill" data-sf="skill">${SKILLS.map(s=>`<option ${f.skill===s?'selected':''} value="${esc(s)}">${esc(sk(s))}</option>`).join('')}</select></div>
+    <div class="field"><label for="sf-round">Round</label><select id="sf-round" data-sf="round"><option ${f.round==='L1'?'selected':''}>L1</option><option ${f.round==='L2'?'selected':''}>L2</option></select></div>
+    <div class="field"><label for="sf-range">Date</label><select id="sf-range" data-sf="range"><option value="next7" ${f.range==='next7'?'selected':''}>Next 7 days</option><option value="month" ${f.range==='month'?'selected':''}>Rest of October</option>${DAYS.filter(d=>d>=TODAY&&(!isWE(d)||driveOn(d))).map(d=>`<option value="${d}" ${f.range===d?'selected':''}>${fd(d)}${driveOn(d)?' · drive':''}</option>`).join('')}</select></div>
+    <div class="field"><label for="sf-time">Time slot</label><select id="sf-time" data-sf="time"><option value="">Any time</option>${WD_SLOTS.map(t=>`<option ${f.time===t?'selected':''}>${t}</option>`).join('')}</select></div>
+    <div class="field"><label for="sf-pid">Panel member</label><select id="sf-pid" data-sf="pid"><option value="">Anyone</option>${panelsFor.map(p=>`<option value="${p.id}" ${f.pid===p.id?'selected':''}>${esc(p.name)}</option>`).join('')}</select></div>
+  </div>
+  <p class="muted" style="margin-bottom:12px">${list.length} open ${esc(sk(f.skill))} ${f.round} slot${list.length===1?'':'s'} · weekday roster v${wdv?wdv.v:'-'}, refreshed live</p>
+  ${Object.keys(byDay).length?Object.entries(byDay).map(([d,arr])=>`<div class="daygroup"><h3>${fd(d)} ${driveOn(d)?`<span class="pill we">${esc(driveOn(d).name)}</span>`:''}<span class="muted" style="font-weight:400">${arr.length} open</span></h3>
+    ${arr.map(s=>`<div class="slotrow"><span class="t">${s.time}</span><div class="meta"><b>${esc(s.p.name)}</b>${s.p.levels.map(lvl).join('')}<span class="tag">${s.p.exp} yrs</span><span class="muted" style="font-size:.8rem">${weekLoad(s.p.id,s.date)}/${s.p.cap} this week</span></div><div class="act"><button class="btn small primary" data-act="bookSlot" data-arg="${s.p.id}|${s.date}|${s.time}">Book</button></div></div>`).join('')}</div>`).join('')
+  :`<div class="card empty">No open ${esc(sk(f.skill))} ${f.round} slots for these filters. Try a wider date range, or ask the coordinator for more capacity.</div>`}`;
+};
+VIEWS.scheduled=()=>{
+  const f=ui.ivf;
+  const list=S.interviews.filter(i=>i.status!=='Cancelled'&&(f==='upcoming'?i.date>=TODAY:f==='attention'?(i.status==='Needs reassignment'||i.status==='Feedback pending'):i.date<TODAY)).sort((a,b)=>(f==='past'?-1:1)*(a.date+a.time).localeCompare(b.date+b.time));
+  return header('Scheduled interviews','Every booked interview across technologies, with its panel and feedback status.')+
+  `<div class="filters"><div class="seg" role="group" aria-label="Interview filter">${[['upcoming','Upcoming'],['attention','Needs attention'],['past','Completed']].map(([k,l])=>`<button aria-pressed="${f===k}" data-act="ivf" data-arg="${k}">${l}</button>`).join('')}</div></div>
+  <section class="card" style="padding:8px 12px"><div class="tbl-wrap"><table><thead><tr><th>When</th><th>Candidate</th><th>Technology</th><th>Panel</th><th>Mode</th><th>Status</th><th></th></tr></thead><tbody>
+  ${list.slice(0,150).map(i=>`<tr><td class="mono" style="white-space:nowrap">${fd(i.date)} ${i.time}</td><td><b>${esc(i.cand)}</b></td><td>${esc(sk(i.skill))} ${lvl(i.round)}</td><td>${esc(P(i.pid).name)}</td><td>${i.driveId?'<span class="pill we">Drive</span>':esc(i.mode)}</td><td>${statusPill(i.status)}</td><td class="r">${i.date>=TODAY&&i.status==='Scheduled'?`<button class="btn small danger" data-act="cancelIv" data-arg="${i.id}">Cancel</button>`:''}</td></tr>`).join('')||'<tr><td colspan="7" class="empty">Nothing here.</td></tr>'}
+  </tbody></table></div></section>`;
+};
+
+/* Hiring manager */
+VIEWS.dashboard=()=>{
+  const ivs=S.interviews.filter(i=>i.status!=='Cancelled');
+  const done=ivs.filter(i=>i.date<TODAY);
+  const oct={sched:ivs.length,l1:done.filter(i=>i.round==='L1').length,l1s:done.filter(i=>i.round==='L1'&&i.status==='Selected').length,l2:done.filter(i=>i.round==='L2').length,l2s:done.filter(i=>i.round==='L2'&&i.status==='Selected').length,pend:ivs.filter(i=>i.status==='Feedback pending').length};
+  oct.offers=Math.round(oct.l2s*0.7);
+  const q3={sched:1842,l1:1415,l1s:612,l2:588,l2s:274,pend:31,offers:203};
+  const F=ui.hmFunnel==='oct'?oct:q3;
+  const stages=[['Interviews scheduled',F.sched],['L1 conducted',F.l1],['L1 selects',F.l1s],['L2 conducted',F.l2],['L2 selects',F.l2s],['Offers released',F.offers]];
+  const fmax=Math.max(...stages.map(s=>s[1]),1);
+  const rows=SKILLS.map(s=>{const dm=S.demand[s].L1+S.demand[s].L2;const c=['L1','L2'].map(L=>cap(s,L,x=>!isWE(x.date)));return {s,dm,off:c[0].off+c[1].off,bk:c[0].bk+c[1].bk};});
+  const max=Math.max(...rows.map(r=>Math.max(r.dm,r.off)));
+  const sub=S.panels.length-pending().length; const drv=DRIVES.filter(d=>d.date>=TODAY).map(d=>assignDrive(d).ready);
+  const bk=C.slots.filter(s=>s.iv).length;
+  return header('Hiring dashboard','Interview capacity, demand and pipeline across the October hiring programme.')+
+  `<div class="kpis">
+    <div class="kpi"><span class="t">Panel availability submitted</span><span class="v">${pct(sub,S.panels.length)}<small>%</small></span><span class="t">target ≥ 90%</span></div>
+    <div class="kpi"><span class="t">Panel utilisation</span><span class="v">${pct(bk,C.slots.length)}<small>%</small></span><span class="t">${bk} of ${C.slots.length} slots booked</span></div>
+    <div class="kpi"><span class="t">Technologies short on capacity</span><span class="v num">${new Set(shortfalls().map(f=>f.skill)).size}</span><span class="t">of ${SKILLS.length} tracked</span></div>
+    <div class="kpi"><span class="t">Weekend drive readiness</span><span class="v">${drv.length?Math.round(drv.reduce((a,b)=>a+b,0)/drv.length):100}<small>%</small></span><span class="t">target 100% before launch</span></div>
+    <div class="kpi"><span class="t">Feedback pending</span><span class="v num">${oct.pend}</span><span class="t">completed interviews without a decision</span></div>
+  </div>
+  <div class="grid cols-2">
+   <section class="card"><div class="card-head"><h2>Demand vs capacity, October weekdays</h2></div>
+    <div class="legend" style="margin:0 0 12px"><span><i class="sw" style="background:var(--demand)"></i>Planned interviews</span><span><i class="sw" style="background:var(--accent)"></i>Slots offered</span></div>
+    <div class="bars">${rows.map(r=>`<div class="barrow"><span class="lab" title="${esc(r.s)}">${esc(sk(r.s))}${r.off<r.dm?' <span class="pill bad" style="padding:0 6px">short</span>':''}</span><div class="barpair">
+      <div class="bar" title="${esc(sk(r.s))}: ${r.dm} planned interviews"><i class="dem" style="width:${r.dm/max*82}%"></i>${r.dm}</div>
+      <div class="bar" title="${esc(sk(r.s))}: ${r.off} slots offered, ${r.bk} booked"><i class="cap" style="width:${r.off/max*82}%"></i>${r.off}</div></div></div>`).join('')}</div></section>
+   <section class="card"><div class="card-head"><h2>Hiring funnel</h2><div class="seg" role="group" aria-label="Funnel period"><button aria-pressed="${ui.hmFunnel==='oct'}" data-act="funnel" data-arg="oct">October to date</button><button aria-pressed="${ui.hmFunnel==='q3'}" data-act="funnel" data-arg="q3">Q3 (Jul–Sep)</button></div></div>
+    <div class="bars">${stages.map(([l,v])=>`<div class="barrow"><span class="lab">${l}</span><div class="bar" title="${l}: ${v}"><i class="fun" style="width:${v/fmax*82}%"></i><b class="num" style="color:var(--fg)">${v}</b></div></div>`).join('')}</div>
+    <p class="muted" style="margin-top:12px;font-size:.8rem">${F.pend} interviews awaiting panel feedback. ${ui.hmFunnel==='q3'?'Q3 figures are sample history.':'October is live from this demo’s bookings; offers are estimated.'}</p></section>
+  </div>
+  <section class="card" style="margin-top:16px"><div class="card-head"><h2>Technology coverage</h2></div><div class="tbl-wrap"><table><thead><tr><th>Technology</th><th class="r">L1 slots / plan</th><th class="r">L2 slots / plan</th><th>Utilisation</th><th class="r">Panels</th></tr></thead><tbody>
+  ${SKILLS.map(s=>{const a=cap(s,'L1',x=>!isWE(x.date)),b=cap(s,'L2',x=>!isWE(x.date));const u=pct(a.bk+b.bk,a.off+b.off);
+    return `<tr><td>${esc(sk(s))}</td><td class="r num" style="color:${a.off<S.demand[s].L1?'var(--bad)':'inherit'}">${a.off} / ${S.demand[s].L1}</td><td class="r num" style="color:${b.off<S.demand[s].L2?'var(--bad)':'inherit'}">${b.off} / ${S.demand[s].L2}</td><td><div style="display:flex;gap:8px;align-items:center"><div class="meter" style="width:90px"><i style="width:${u}%"></i></div><span class="num">${u}%</span></div></td><td class="r num">${S.panels.filter(p=>p.skills.includes(s)).length}</td></tr>`}).join('')}</tbody></table></div></section>`;
+};
+
+/* Copilot */
+const PROMPTS=['Show available React L1 panels for next week','Which technologies are facing capacity shortages?','Generate weekend drive roster','Who has not submitted availability?','Show utilisation report for October','Any scheduling conflicts?'];
+VIEWS.copilot=()=>header('Copilot','Ask about panels, capacity and rosters in plain language. Answers come from live roster data.')+
+  `<section class="card"><div class="chat" id="chat">${ui.chat.length?ui.chat.map(m=>m.me?`<div class="msg me">${esc(m.text)}</div>`:`<div class="msg bot">${m.html}</div>`).join(''):`<div class="msg bot">Hi ${ROLES[ui.role].user.split(' ')[0]}. Try one of the questions below, or type your own.</div>`}</div>
+  <div class="chips" style="margin-top:14px">${PROMPTS.map(p=>`<button class="btn small" data-act="ask" data-arg="${esc(p)}">${esc(p)}</button>`).join('')}</div>
+  <form class="chatbar" id="chatform"><label for="q" class="eyebrow" style="position:absolute;left:-9999px">Question</label><input id="q" autocomplete="off" placeholder="e.g. Show available Java L2 panels this week"><button class="btn primary" type="submit">Ask</button></form></section>`;
+
+const ALIAS=[['react \\+ next|react next|next\\.?js','React + Next.js'],['java ?\\+ ?angular','Full Stack (Java+Angular)'],['java ?\\+ ?react','Full Stack (Java+React)'],['full ?stack','Full Stack (Java+React)'],['ux','UX Design'],['mern','MERN'],['mean','MEAN'],['mobile','Mobile'],['node','Node.js'],['angular','Angular'],['react','React'],['java','Java']];
+function answer(q){
+  const s=q.toLowerCase();
+  const skill=(ALIAS.find(([re])=>new RegExp('\\b('+re+')\\b').test(s))||[])[1];
+  const L=/\bl2\b/.test(s)?'L2':/\bl1\b/.test(s)?'L1':null;
+  let from=TODAY,to='2026-10-31',rl='this month';
+  if(/next week/.test(s)){from='2026-10-05';to='2026-10-09';rl='next week (5–9 Oct)'} else if(/this week/.test(s)){from=TODAY;to='2026-10-04';rl='this week'} else if(/tomorrow|monday/.test(s)){from=to='2026-10-05';rl='Mon 5 Oct'}
+  if(/not submitted|pending|haven.?t|have not|missing/.test(s)){const p=pending();
+    return `${p.length} panel members have not submitted October availability:<table><thead><tr><th>Name</th><th>Technology</th><th>Level</th><th class="r">Reminders</th></tr></thead><tbody>${p.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.skills.map(sk).join(', '))}</td><td>${x.levels.join('/')}</td><td class="r num">${x.reminders}</td></tr>`).join('')}</tbody></table>${ui.role==='coordinator'?'<div style="margin-top:10px"><button class="btn small primary" data-act="remindAll">Send reminders now</button></div>':''}`;}
+  if(/weekend|drive/.test(s)){const drv=DRIVES.find(d=>d.date>=TODAY);const a=assignDrive(drv);
+    return `Draft roster for <b>${esc(drv.name)}</b>, ${fd(drv.date)} (${a.ready}% staffed):<table><thead><tr><th>Technology</th><th>L1 panels</th><th>L2 panels</th></tr></thead><tbody>${a.rows.map(r=>`<tr><td>${esc(sk(r.skill))} · ${r.c} candidates</td><td>${r.l1.map(p=>esc(p.name)).join(', ')||'—'} <span class="muted">(${r.l1.length}/${r.needL1})</span></td><td>${r.l2.map(p=>esc(p.name)).join(', ')||'—'} <span class="muted">(${r.l2.length}/${r.needL2})</span></td></tr>`).join('')}</tbody></table>`;}
+  if(/utili[sz]/.test(s)){return `Slot utilisation for October so far:<table><thead><tr><th>Technology</th><th class="r">Offered</th><th class="r">Booked</th><th class="r">Utilisation</th></tr></thead><tbody>${SKILLS.map(x=>{const a=cap(x,'L1'),b=cap(x,'L2');const o=a.off+b.off,k=a.bk+b.bk;return `<tr><td>${esc(sk(x))}</td><td class="r num">${o}</td><td class="r num">${k}</td><td class="r num">${pct(k,o)}%</td></tr>`}).join('')}</tbody></table><div class="src">Panels with both levels count toward L1 and L2.</div>`;}
+  if(/conflict|clash|double|overlap/.test(s)){const g=l2Gaps(),o=overloads(),i=impacted();
+    return `<b>${i.length}</b> interviews need reassignment after reported unavailability.<br>${g.map(x=>`${esc(sk(x.skill))} L2 coverage unavailable on ${x.days.map(fd).join(', ')}.`).join('<br>')||'No L2 coverage gaps in the next 10 working days.'}<br>${o.map(x=>`${esc(x.p.name)} is over their weekly limit (${x.n}/${x.p.cap}).`).join('<br>')}`;}
+  if(/short|capacity|gap|demand/.test(s)&&!/available|free/.test(s)){const f=shortfalls();
+    return f.length?`${new Set(f.map(x=>x.skill)).size} technologies are short of planned weekday capacity:<table><thead><tr><th>Technology</th><th>Level</th><th class="r">Offered</th><th class="r">Planned</th><th class="r">Short by</th></tr></thead><tbody>${f.map(x=>`<tr><td>${esc(sk(x.skill))}</td><td>${x.L}</td><td class="r num">${x.off}</td><td class="r num">${x.dm}</td><td class="r num">${x.pctShort}%</td></tr>`).join('')}</tbody></table>`:'Every technology has enough offered slots for planned demand.';}
+  if(skill&&/avail|free|open|slot|panel|who/.test(s)){
+    const levels=L?[L]:['L1','L2'];
+    const rows=S.panels.filter(p=>p.skills.includes(skill)&&levels.some(l=>p.levels.includes(l))).map(p=>{const o=C.slots.filter(x=>x.p===p&&!x.iv&&x.date>=from&&x.date<=to);return {p,o}}).filter(r=>r.o.length).sort((a,b)=>b.o.length-a.o.length);
+    return rows.length?`${rows.length} ${esc(sk(skill))} ${L||''} panel${rows.length>1?'s have':' has'} open slots ${rl}:<table><thead><tr><th>Panel</th><th>Level</th><th class="r">Open</th><th>Next open slot</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.p.name)}</td><td>${r.p.levels.join('/')}</td><td class="r num">${r.o.length}</td><td class="mono">${fd(r.o[0].date)} ${r.o[0].time}</td></tr>`).join('')}</tbody></table>`:`No ${esc(sk(skill))} ${L||''} panels have open slots ${rl}.`;}
+  return null;
+}
+function contextSummary(){
+  return JSON.stringify({today:TODAY,panels:S.panels.length,pendingAvailability:pending().map(p=>p.name),
+    capacity:SKILLS.map(s=>({tech:s,L1:{offered:cap(s,'L1').off,booked:cap(s,'L1').bk,planned:S.demand[s].L1},L2:{offered:cap(s,'L2').off,booked:cap(s,'L2').bk,planned:S.demand[s].L2}})),
+    drives:DRIVES.map(d=>({name:d.name,date:d.date,staffedPct:assignDrive(d).ready,demand:d.demand})),needReassignment:impacted().length});
+}
+async function ask(q){
+  ui.chat.push({me:true,text:q});
+  const local=answer(q);
+  if(local){ui.chat.push({html:local});render();scrollChat();return;}
+  const idx=ui.chat.push({html:'<span class="muted">Thinking…</span>'})-1; render();scrollChat();
+  let sample=null; try{sample=window.claude?.use?await window.claude.use('sample'):null}catch(e){}
+  if(!sample){ui.chat[idx].html=`I can answer questions about panel availability, capacity shortages, weekend drive rosters, pending submissions, utilisation and conflicts. Try naming a technology and level, for example “Show available Java L2 panels this week”.`;render();scrollChat();return;}
+  const prompt=`You are the coordinator copilot inside TalentBlue, a recruitment operations tool for Capgemini interview panels and rosters. Answer the question using only this October 2026 data (JSON). Be concise: under 120 words, plain text, no markdown.\n\nDATA: ${contextSummary()}\n\nQUESTION: ${q}`;
+  try{const r=await sample(prompt,{modelTier:'quick',onText:({text})=>{ui.chat[idx].html=esc(text);const el=document.querySelectorAll('#chat .msg.bot');if(el.length)el[el.length-1].textContent=text;}});
+    ui.chat[idx].html=esc(r.text)+'<div class="src">Answered by Claude from the roster summary.</div>';}
+  catch(e){ui.chat[idx].html=e&&e.code==='not_granted'?'Free-form answers need permission to ask Claude. The suggested questions work without it.':'I could not answer that one. Try a suggested question.';}
+  render();scrollChat();
+}
+function scrollChat(){const c=$('#chat');if(c&&c.lastElementChild)c.lastElementChild.scrollIntoView({block:'nearest'})}
+
+/* ---------- drawer ---------- */
+function openDrawer(title,sub,body,foot=''){
+  const d=$('#drawer');d.innerHTML=`<div class="drawer-head"><div><h2 id="drawer-title">${title}</h2>${sub?`<p class="muted" style="margin-top:2px">${sub}</p>`:''}</div><button class="x" data-act="closeDrawer" aria-label="Close">×</button></div><div class="drawer-body">${body}</div>${foot?`<div class="drawer-foot">${foot}</div>`:''}`;
+  d.hidden=false;$('#scrim').hidden=false;const f=d.querySelector('input,select,textarea,button:not(.x)');(f||d.querySelector('.x')).focus();
+}
+function closeDrawer(){$('#drawer').hidden=true;$('#scrim').hidden=true}
+
+/* ---------- actions ---------- */
+const A={};
+A.reset=()=>{try{localStorage.removeItem(KEY)}catch(e){};S=seed();ui.chat=[];closeDrawer();render();toast('Demo data reset')};
+A.go=v=>{closeDrawer();go(v)};
+A.closeDrawer=closeDrawer;
+A.demoFill=email=>{$('#li-email').value=email;$('#li-pw').value='demo123';$('#li-err').hidden=true;$('#li-pw').focus();};
+A.signout=()=>{log(acct.name,'Signed out');save();acct=null;ui.chat=[];try{localStorage.removeItem(KEY+'-session')}catch(e){}showAuth();};
+A.theme=()=>{const dark=theme?theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;theme=dark?'light':'dark';try{localStorage.setItem(KEY+'-theme',theme)}catch(e){}applyTheme(theme);};
+A.rmode=m=>{ui.rosterMode=m;render()};
+A.rlevel=l=>{ui.rosterLevel=l;render()};
+A.ivf=f=>{ui.ivf=f;render()};
+A.funnel=f=>{ui.hmFunnel=f;render()};
+A.ask=q=>ask(q);
+A.notifs=()=>{const tgt=ui.role==='panel'?ME:ui.role;const list=S.notifs.filter(n=>n.to===tgt);
+  openDrawer('Notifications',`${list.filter(n=>!n.read).length} unread`,list.length?list.map(n=>`<div class="notif ${n.read?'':'unread'}"><div class="mono muted" style="font-size:.74rem">${esc(n.t.slice(5))}</div><div>${n.read?'':'<b>● </b>'}${esc(n.text)}</div></div>`).join(''):'<p class="muted">No notifications.</p>');
+  list.forEach(n=>n.read=true);save();setTimeout(()=>{const b=document.querySelector('.bell .dot');if(b)b.remove()},0);};
+A.generate=()=>{
+  const mode=ui.rosterMode;const sl=C.slots.filter(s=>mode==='weekday'?!isWE(s.date):isWE(s.date));
+  const gaps=mode==='weekday'?l2Gaps(30).reduce((a,g)=>a+g.days.length,0):DRIVES.filter(d=>assignDrive(d).ready<100).length;
+  log('Girish Dunga',`Auto-generated ${mode} roster: ${sl.length} slots from ${S.panels.filter(p=>p.submitted).length} submissions`);save();render();
+  toast(`Roster generated: ${sl.length} slots across ${SKILLS.length} technologies, ${gaps} ${mode==='weekday'?'L2 coverage gap days':'drives under-staffed'} flagged.`);};
+A.publish=()=>{const mode=ui.rosterMode;const r=S.roster[mode];const v=(r.versions.at(-1)?.v||0)+1;
+  r.versions.push({v,t:nowStr(),by:'Girish Dunga'});r.changes=0;
+  notify('ta',`${mode==='weekday'?'Weekday':'Weekend drive'} roster v${v} for October was published by Girish Dunga.`);notify('hm',`${mode==='weekday'?'Weekday':'Weekend drive'} roster v${v} published.`);
+  S.panels.forEach(p=>{if(p.submitted)notify(p.id,`October ${mode} roster v${v} is published. Check My interviews for bookings.`)});
+  log('Girish Dunga',`Published ${mode} roster v${v} for October`);save();render();toast(`Published ${mode} roster v${v}. TA, hiring managers and panels were notified.`);};
+A.versions=mode=>{const r=S.roster[mode];openDrawer('Version history',`${mode==='weekday'?'Weekday':'Weekend drive'} roster, October`,`<div class="list">${r.versions.slice().reverse().map(v=>`<div class="li"><div><b>Version ${v.v}</b><div class="muted" style="font-size:.8rem">Published by ${esc(v.by)}</div></div><span class="mono">${esc(v.t.slice(5))}</span></div>`).join('')}</div>`)};
+A.cell=arg=>{const [s,d]=arg.split('|');const drv=driveOn(d);
+  const ps=S.panels.filter(p=>p.skills.includes(s));
+  const rows=ps.map(p=>{const a=S.avail[p.id]?.[d];const st=!p.submitted?'pending':a?a.s:'-';
+    return `<div class="li" style="align-items:flex-start"><div style="min-width:0"><b>${esc(p.name)}</b> ${p.levels.map(lvl).join(' ')}<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">${a&&a.slots.length?a.slots.map(t=>{const iv=C.booked.get(`${p.id}|${d}|${t}`);return `<span class="tag mono" title="${iv?esc(iv.cand):'Open'}" style="${iv?'background:var(--accent-soft);color:var(--accent)':''}">${t}${iv?' ●':''}</span>`}).join(''):`<span class="muted" style="font-size:.8rem">${a&&a.reason?esc(a.reason):st==='pending'?'Availability not submitted':'No slots offered'}</span>`}</div></div>
+    ${st==='A'?'<span class="pill ok">Available</span>':st==='P'?'<span class="pill warn">Partial</span>':st==='N'?'<span class="pill bad">Not available</span>':st==='pending'?'<span class="pill warn">Pending</span>':'<span class="pill plain">Not offered</span>'}</div>`}).join('');
+  const c1=cap(s,'L1',x=>x.date===d),c2=cap(s,'L2',x=>x.date===d);
+  openDrawer(`${esc(sk(s))} · ${fd(d)}`,drv?esc(drv.name):'Weekday interviews',`<div class="row2"><div class="kpi"><span class="t">L1 open / offered</span><span class="v num">${c1.open}<small> / ${c1.off}</small></span></div><div class="kpi"><span class="t">L2 open / offered</span><span class="v num">${c2.open}<small> / ${c2.off}</small></span></div></div>${c2.off===0&&d>=TODAY?'<p class="note bad">No L2 panel is available for this technology on this day.</p>':''}<div><h3 style="margin-bottom:4px">Panel members</h3><p class="muted" style="font-size:.8rem;margin-bottom:6px">● marks a booked slot.</p><div class="list">${rows}</div></div>`,
+    ps.some(p=>!p.submitted)?`<button class="btn" data-act="askSlots" data-arg="${esc(s)}|L2">Ask panels for more slots</button>`:'');};
+A.askSlots=arg=>{const [s,L]=arg.split('|');const ps=S.panels.filter(p=>p.skills.includes(s)&&p.levels.includes(L));
+  ps.forEach(p=>notify(p.id,p.submitted?`${sk(s)} ${L} demand is above capacity this month. Could you open one or two more slots?`:`Hi ${p.name.split(' ')[0]}, please submit your October ${L} ${sk(s)} interview availability.`));
+  ps.filter(p=>!p.submitted).forEach(p=>p.reminders++);
+  log('Availability agent',`Requested extra ${sk(s)} ${L} slots from ${ps.length} panel members`);save();render();toast(`Asked ${ps.length} ${sk(s)} ${L} panel members for more slots.`);};
+A.remindAll=()=>{const p=pending();p.forEach(x=>{x.reminders++;notify(x.id,`Reminder: your October ${x.levels.join('/')} ${sk(x.skills[0])} interview availability is pending.`)});
+  log('Availability agent',`Sent reminders to ${p.length} panel members with pending October availability`);save();render();toast(`Reminders sent to ${p.length} panel members. The agent follows up again in 2 days.`);};
+A.requestDrive=id=>{const drv=DRIVES.find(d=>d.id===id);
+  const ps=S.panels.filter(p=>p.weekend&&p.skills.some(s=>drv.demand[s])&&!(S.avail[p.id]?.[drv.date]&&S.avail[p.id][drv.date].s!=='N'));
+  ps.forEach(p=>notify(p.id,`Weekend drive request: ${drv.name}, ${fd(drv.date)}, ${drv.loc}. Please confirm your slots in My availability.`));
+  log('Girish Dunga',`Requested participation for ${drv.name} from ${ps.length} eligible panel members`);save();render();toast(`Participation request sent to ${ps.length} weekend-eligible panel members.`);};
+A.driveRoster=id=>{const drv=DRIVES.find(d=>d.id===id);const a=assignDrive(drv);
+  openDrawer(esc(drv.name),`${fd(drv.date)} · ${esc(drv.loc)}`,a.rows.map(r=>`<div><h3 style="margin-bottom:6px">${esc(sk(r.skill))} <span class="muted" style="font-weight:400">· ${r.c} candidates</span></h3><div class="list">
+    ${[...r.l2.map(p=>[p,'L2']),...r.l1.map(p=>[p,'L1'])].map(([p,L])=>{const n=S.interviews.filter(i=>i.pid===p.id&&i.date===drv.date&&i.status!=='Cancelled').length;return `<div class="li"><span><b>${esc(p.name)}</b> ${lvl(L)}</span><span class="mono muted" style="font-size:.8rem">${WE_SLOTS[0]}–17:00 · ${n} booked</span></div>`}).join('')||'<p class="muted">No panels confirmed yet.</p>'}
+    ${r.l1.length<r.needL1||r.l2.length<r.needL2?`<p class="note bad" style="margin-top:6px">Still needed: ${r.l1.length<r.needL1?`${r.needL1-r.l1.length} L1`:''} ${r.l2.length<r.needL2?`${r.needL2-r.l2.length} L2`:''}</p>`:''}</div></div>`).join(''));};
+A.taDrive=d=>{ui.sf.range=d;const drv=driveOn(d);ui.sf.skill=Object.keys(drv.demand)[0];ui.sf.time='';ui.sf.pid='';go('slots')};
+A.openPanel=id=>{const p=id==='new'?{id:'new',name:'',skills:[],levels:['L1'],exp:5,bu:BUS[0],weekend:false,cap:5,submitted:false}:P(id);
+  const sl=C.slots.filter(s=>s.p===p);
+  openDrawer(id==='new'?'Add panel member':esc(p.name),id==='new'?'Map skills and interview level':`${p.submitted?'October availability submitted':'October availability pending'} · ${sl.length} slots offered, ${sl.filter(s=>s.iv).length} booked`,
+  `<form id="pform" class="grid" style="gap:14px">
+    <div class="field"><label for="pf-name">Name</label><input id="pf-name" value="${esc(p.name)}" required></div>
+    <div class="field"><span class="lab">Technologies</span><div class="chips">${SKILLS.map((s,i)=>`<label class="chip text"><input type="checkbox" id="pfs-${i}" name="skills" value="${esc(s)}" ${p.skills.includes(s)?'checked':''}><span>${esc(sk(s))}</span></label>`).join('')}</div></div>
+    <div class="field"><span class="lab">Interview level</span><div class="chips">${['L1','L2'].map(L=>`<label class="chip"><input type="checkbox" id="pfl-${L}" name="levels" value="${L}" ${p.levels.includes(L)?'checked':''}><span>${L}</span></label>`).join('')}</div></div>
+    <div class="row2"><div class="field"><label for="pf-exp">Experience (years)</label><input id="pf-exp" type="number" min="1" max="40" value="${p.exp}"></div>
+    <div class="field"><label for="pf-cap">Max interviews per week</label><input id="pf-cap" type="number" min="1" max="20" value="${p.cap}"></div></div>
+    <div class="field"><label for="pf-bu">Business unit</label><select id="pf-bu">${BUS.map(b=>`<option ${p.bu===b?'selected':''}>${b}</option>`).join('')}</select></div>
+    <label class="chip text"><input type="checkbox" id="pf-we" ${p.weekend?'checked':''}><span>Eligible for weekend drives</span></label>
+    <p class="muted" id="pf-err" style="color:var(--bad)" hidden></p>
+  </form>`,
+  `${id!=='new'&&!p.submitted?`<button class="btn" data-act="remindOne" data-arg="${p.id}">Send reminder</button>`:''}<button class="btn primary" data-act="savePanel" data-arg="${p.id}">${id==='new'?'Add panel member':'Save changes'}</button>`);};
+A.remindOne=id=>{const p=P(id);p.reminders++;notify(id,`Hi ${p.name.split(' ')[0]}, please submit your October ${p.levels.join('/')} ${sk(p.skills[0])} interview availability.`);log('Girish Dunga',`Sent availability reminder to ${p.name}`);save();closeDrawer();render();toast(`Reminder sent to ${p.name}`)};
+A.savePanel=id=>{const f=$('#pform');const name=$('#pf-name').value.trim();const skills=[...f.querySelectorAll('[name=skills]:checked')].map(x=>x.value);const levels=[...f.querySelectorAll('[name=levels]:checked')].map(x=>x.value);
+  const err=$('#pf-err');if(!name||!skills.length||!levels.length){err.textContent='Add a name, at least one technology and at least one level.';err.hidden=false;return;}
+  const vals={name,skills,levels,exp:+$('#pf-exp').value||1,cap:+$('#pf-cap').value||1,bu:$('#pf-bu').value,weekend:$('#pf-we').checked};
+  if(id==='new'){const nid='p'+(S.panels.length+1+Math.floor(Math.random()*1000));S.panels.push({id:nid,...vals,submitted:false,submittedOn:null,reminders:0});S.avail[nid]={};notify(nid,`Welcome to TalentBlue. Please submit your October interview availability.`);log('Girish Dunga',`Added panel member ${name} (${skills.map(sk).join(', ')}, ${levels.join('/')})`);toast(`${name} added. An availability request was sent.`);}
+  else{Object.assign(P(id),vals);log('Girish Dunga',`Updated skill mapping for ${name}`);toast('Panel mapping saved');}
+  save();closeDrawer();render();};
+
+/* panel member actions */
+function dayForm(d){const a=S.avail[ME][d]||{s:'A',slots:[]};const slots=slotsOf(d);
+  const bks=S.interviews.filter(i=>i.pid===ME&&i.date===d&&i.status==='Scheduled');
+  return `<form id="dform" class="grid" style="gap:14px">
+   ${driveOn(d)?`<p class="note we">${esc(driveOn(d).name)} · ${esc(driveOn(d).loc)}. Face to face, full day preferred.</p>`:''}
+   <div class="field"><span class="lab">Status</span><div class="seg" role="radiogroup" aria-label="Status">${[['A','Available'],['P','Partially available'],['N','Not available']].map(([k,l])=>`<button type="button" aria-pressed="${a.s===k}" data-act="dstat" data-arg="${k}">${l}</button>`).join('')}</div></div>
+   <div class="field" id="d-slots" ${a.s==='N'?'hidden':''}><span class="lab">Preferred interview slots (1 hour each)</span><div class="chips">${slots.map(t=>{const iv=bks.find(i=>i.time===t);return `<label class="chip ${iv?'locked':''}"><input type="checkbox" name="slot" id="ds-${t.replace(':','')}" value="${t}" ${a.slots.includes(t)?'checked':''}><span>${t}${iv?' ●':''}</span></label>`}).join('')}</div>
+     ${bks.length?`<p class="muted" style="font-size:.8rem;margin-top:6px">● booked: ${bks.map(i=>`${i.time} ${esc(i.cand)}`).join(', ')}. Removing a booked slot sends it to the coordinator for reassignment.</p>`:''}</div>
+   <div class="field" id="d-reason" ${a.s==='N'?'':'hidden'}><label for="d-r">Reason</label><select id="d-r">${UNAVAIL_TYPES.concat(['Personal commitment']).map(r=>`<option ${a.reason===r?'selected':''}>${r}</option>`).join('')}</select></div>
+   <input type="hidden" id="d-s" value="${a.s}">
+  </form>`;}
+A.editDay=d=>openDrawer(fd(d),'Set your availability for this day',dayForm(d),`<button class="btn" data-act="closeDrawer">Cancel</button><button class="btn primary" data-act="saveDay" data-arg="${d}">Save</button>`);
+A.dstat=(k,el)=>{$('#d-s').value=k;el.parentElement.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b===el));$('#d-slots').hidden=k==='N';$('#d-reason').hidden=k!=='N';};
+function afterAvailChange(summary){
+  const me=P(ME);const nw=reconcile();
+  S.roster.weekday.changes++; if(S.roster.weekend.versions.length) S.roster.weekend.changes++;
+  log(me.name,summary);
+  if(nw.length){notify('coordinator',`${me.name}: ${summary}. ${nw.length} booked interview${nw.length>1?'s need':' needs'} reassignment.`);
+    nw.forEach(i=>notify('ta',`${i.cand}'s ${sk(i.skill)} ${i.round} interview on ${fd(i.date)} ${i.time} is on hold while a new panel is assigned.`));
+    log('Conflict agent',`Flagged ${nw.length} interview${nw.length>1?'s':''} for reassignment`);}
+  save();closeDrawer();render();
+  toast(nw.length?`Saved. ${nw.length} booked interview${nw.length>1?'s were':' was'} sent to your coordinator for reassignment.`:'Saved. The roster is updated.');}
+A.saveDay=d=>{const s=$('#d-s').value;let slots=[...document.querySelectorAll('#dform [name=slot]:checked')].map(x=>x.value);
+  if(s!=='N'&&!slots.length){toast('Pick at least one slot, or mark the day as not available.');return;}
+  const st=s==='N'?'N':(s==='P'||slots.length<2?'P':'A');
+  S.avail[ME][d]=st==='N'?{s:'N',slots:[],reason:$('#d-r').value}:{s:st,slots};
+  afterAvailChange(`Updated availability for ${fd(d)} (${st==='A'?'available':st==='P'?'partially available':'not available'}${st!=='N'?`, ${slots.join(', ')}`:''})`);};
+A.submitAvail=()=>{const me=P(ME);me.submitted=true;me.submittedOn=TODAY;log(me.name,'Submitted October availability');notify('coordinator',`${me.name} submitted October availability.`);save();render();toast('Availability submitted. Thank you.')};
+A.pattern=()=>openDrawer('Weekly pattern','Apply the same slots to every upcoming weekday in October',
+  `<form id="patform" class="grid" style="gap:14px"><div class="field"><span class="lab">Days</span><div class="chips">${['Mon','Tue','Wed','Thu','Fri'].map((d,i)=>`<label class="chip text"><input type="checkbox" name="pd" id="pd-${i}" value="${i+1}" ${i!==4?'checked':''}><span>${d}</span></label>`).join('')}</div></div>
+  <div class="field"><span class="lab">Slots</span><div class="chips">${WD_SLOTS.map(t=>`<label class="chip"><input type="checkbox" name="pt" id="pt-${t.replace(':','')}" value="${t}" ${['11:00','14:30'].includes(t)?'checked':''}><span>${t}</span></label>`).join('')}</div></div>
+  <label class="chip text"><input type="checkbox" id="pkeep" checked><span>Keep days I marked not available</span></label>
+  <p class="note">Recurring patterns save you from entering each day. You can still change single days afterwards.</p></form>`,
+  `<button class="btn" data-act="closeDrawer">Cancel</button><button class="btn primary" data-act="applyPattern">Apply pattern</button>`);
+A.applyPattern=()=>{const days=[...document.querySelectorAll('[name=pd]:checked')].map(x=>+x.value);const ts=[...document.querySelectorAll('[name=pt]:checked')].map(x=>x.value);const keep=$('#pkeep').checked;
+  if(!days.length||!ts.length){toast('Pick at least one day and one slot.');return;}
+  let n=0;for(const d of WEEKDAYS){if(d<=TODAY||!days.includes(dw(d)))continue;const cur=S.avail[ME][d];if(keep&&cur&&cur.s==='N')continue;S.avail[ME][d]={s:ts.length>=2?'A':'P',slots:ts.slice()};n++;}
+  afterAvailChange(`Applied weekly pattern (${ts.join(', ')}) to ${n} days`);};
+A.unavail=()=>{const opts=DAYS.filter(d=>d>TODAY&&(!isWE(d)||driveOn(d)));
+  openDrawer('Report unavailability','Your coordinator is told at once, and any affected interviews are reassigned.',
+  `<form id="uform" class="grid" style="gap:14px"><div class="row2"><div class="field"><label for="u-from">From</label><select id="u-from">${opts.map(d=>`<option value="${d}">${fd(d)}</option>`).join('')}</select></div>
+  <div class="field"><label for="u-to">To</label><select id="u-to">${opts.map(d=>`<option value="${d}">${fd(d)}</option>`).join('')}</select></div></div>
+  <div class="field"><span class="lab">Reason</span><div class="chips">${UNAVAIL_TYPES.map((r,i)=>`<label class="chip text"><input type="radio" name="ur" id="ur-${i}" value="${r}" ${i===0?'checked':''}><span>${r}</span></label>`).join('')}</div></div>
+  <div class="field"><span class="lab">Affected time</span><div class="chips"><label class="chip text"><input type="radio" name="uall" id="ua-1" value="all" checked><span>Whole day</span></label>${WD_SLOTS.map(t=>`<label class="chip"><input type="checkbox" name="ut" id="ut-${t.replace(':','')}" value="${t}"><span>${t}</span></label>`).join('')}</div><p class="muted" style="font-size:.78rem;margin-top:4px">Pick specific slots for a meeting conflict; leave them clear for the whole day.</p></div>
+  <div class="field"><label for="u-note">Note for coordinator (optional)</label><textarea id="u-note" placeholder="e.g. Client UAT moved to this week"></textarea></div></form>
+  <div id="u-impact"></div>`,
+  `<button class="btn" data-act="closeDrawer">Cancel</button><button class="btn primary" data-act="saveUnavail">Report</button>`);};
+A.saveUnavail=()=>{let a=$('#u-from').value,b=$('#u-to').value;if(b<a)[a,b]=[b,a];const reason=document.querySelector('[name=ur]:checked').value;const ts=[...document.querySelectorAll('[name=ut]:checked')].map(x=>x.value);
+  for(const d of DAYS){if(d<a||d>b||(isWE(d)&&!driveOn(d)))continue;const cur=S.avail[ME][d];
+    if(!ts.length||!cur||cur.s==='N'){S.avail[ME][d]={s:'N',slots:[],reason};continue;}
+    const left=cur.slots.filter(t=>!ts.includes(t));S.avail[ME][d]=left.length?{s:'P',slots:left,reason}:{s:'N',slots:[],reason};}
+  afterAvailChange(`Reported ${reason} for ${a===b?fd(a):`${fd(a)} to ${fd(b)}`}${ts.length?` (${ts.join(', ')})`:''}`);};
+A.feedback=id=>{const i=S.interviews.find(x=>x.id===id);
+  openDrawer('Interview feedback',`${esc(i.cand)} · ${esc(sk(i.skill))} ${i.round} · ${fd(i.date)} ${i.time}`,
+  `<form id="fform" class="grid" style="gap:14px"><div class="field"><span class="lab">Overall rating</span><div class="chips">${[1,2,3,4,5].map(n=>`<label class="chip"><input type="radio" name="fr" id="fr-${n}" value="${n}" ${n===4?'checked':''}><span>${n}</span></label>`).join('')}</div></div>
+  <div class="field"><span class="lab">Decision</span><div class="chips">${['Selected','Rejected','On hold'].map((d,k)=>`<label class="chip text"><input type="radio" name="fd" id="fd-${k}" value="${d}" ${k===0?'checked':''}><span>${d==='Selected'?`Select for ${i.round==='L1'?'L2':'offer'}`:d==='Rejected'?'Reject':'On hold'}</span></label>`).join('')}</div></div>
+  <div class="field"><label for="f-c">Comments</label><textarea id="f-c" placeholder="Strengths, gaps, and anything the next round should probe"></textarea></div></form>`,
+  `<button class="btn" data-act="closeDrawer">Cancel</button><button class="btn primary" data-act="saveFeedback" data-arg="${id}">Submit feedback</button>`);};
+A.saveFeedback=id=>{const i=S.interviews.find(x=>x.id===id);const dec=document.querySelector('[name=fd]:checked').value;
+  i.status=dec;i.feedback={rating:+document.querySelector('[name=fr]:checked').value,decision:dec,comment:$('#f-c').value};
+  notify('ta',`Feedback received for ${i.cand} (${sk(i.skill)} ${i.round}): ${dec}.`);log(P(i.pid).name,`Submitted feedback for ${i.cand}: ${dec}`);save();closeDrawer();render();toast('Feedback submitted. TA has been notified.');};
+
+/* TA actions */
+function bookForm(pid,d,t,pre={}){const p=P(pid);return `<div class="note">${esc(p.name)} · ${p.levels.join('/')} · ${p.exp} yrs · <span class="mono">${fd(d)} ${t}</span>${driveOn(d)?` · ${esc(driveOn(d).name)}`:''}</div>
+  <form id="bform" class="grid" style="gap:14px"><div class="field"><label for="b-name">Candidate name</label><input id="b-name" value="${esc(pre.cand||'')}" placeholder="Full name" required></div>
+  <div class="row2"><div class="field"><label for="b-exp">Experience (years)</label><input id="b-exp" type="number" min="0" max="40" value="${pre.cexp??5}"></div>
+  <div class="field"><label for="b-mode">Mode</label><select id="b-mode"><option ${driveOn(d)?'':'selected'}>Virtual</option><option ${driveOn(d)?'selected':''}>Face to face</option></select></div></div>
+  <p class="muted" id="b-err" style="color:var(--bad)" hidden></p></form>`;}
+A.bookSlot=arg=>{const [pid,d,t]=arg.split('|');const f=ui.sf;
+  openDrawer('Book interview',`${esc(sk(f.skill))} ${f.round}`,bookForm(pid,d,t),`<button class="btn" data-act="closeDrawer">Cancel</button><button class="btn primary" data-act="confirmBook" data-arg="${pid}|${d}|${t}|${esc(f.skill)}|${f.round}">Book interview</button>`);};
+A.confirmBook=arg=>{const [pid,d,t,skill,round,fromIv]=arg.split('|');const name=$('#b-name').value.trim();
+  if(!name){const e=$('#b-err');e.textContent='Enter the candidate’s name.';e.hidden=false;$('#b-name').focus();return;}
+  compute(); if(C.booked.get(`${pid}|${d}|${t}`)){toast('That slot was just taken. Pick another.');closeDrawer();render();return;}
+  if(fromIv){const old=S.interviews.find(x=>x.id===fromIv);if(old)old.status='Cancelled';}
+  const drv=driveOn(d);S.seq++;
+  const iv={id:'i'+S.seq,cand:name,cexp:+$('#b-exp').value||0,skill,round,date:d,time:t,pid,mode:$('#b-mode').value,ta:'Priya Nair',status:'Scheduled',driveId:drv?drv.id:null,feedback:null};
+  S.interviews.push(iv);notify(pid,`New interview: ${name}, ${sk(skill)} ${round}, ${fd(d)} ${t} (${iv.mode}).`);
+  log('Priya Nair',`Booked ${name} with ${P(pid).name} for ${sk(skill)} ${round} on ${fd(d)} ${t}`);save();closeDrawer();render();toast(`Booked. ${P(pid).name} has been notified and an invite goes to Outlook.`);};
+A.smart=(pre)=>{const f=ui.sf;openDrawer('Smart schedule','The panel assignment agent ranks interviewers by skill, level, experience, load and availability.',
+  `<form id="sform" class="grid" style="gap:14px"><div class="field"><label for="s-name">Candidate name</label><input id="s-name" placeholder="Full name"></div>
+  <div class="row2"><div class="field"><label for="s-skill">Technology</label><select id="s-skill">${SKILLS.map(s=>`<option ${f.skill===s?'selected':''} value="${esc(s)}">${esc(sk(s))}</option>`).join('')}</select></div>
+  <div class="field"><label for="s-round">Round</label><select id="s-round"><option ${f.round==='L1'?'selected':''}>L1</option><option ${f.round==='L2'?'selected':''}>L2</option></select></div></div>
+  <div class="row2"><div class="field"><label for="s-exp">Candidate experience (years)</label><input id="s-exp" type="number" min="0" max="40" value="9"></div>
+  <div class="field"><label for="s-from">Earliest date</label><select id="s-from">${DAYS.filter(d=>d>=TODAY).map(d=>`<option value="${d}">${fd(d)}</option>`).join('')}</select></div></div>
+  <button type="button" class="btn primary" data-act="runSmart">Recommend panels</button></form><div id="recs"></div>`);};
+A.runSmart=()=>{compute();const q={skill:$('#s-skill').value,round:$('#s-round').value,cexp:+$('#s-exp').value||0,from:$('#s-from').value};
+  const r=recommend(q);const name=$('#s-name').value.trim()||'Candidate';
+  $('#recs').innerHTML=`<h3 style="margin-bottom:8px">${esc(name)}: ${q.cexp>=8?'Senior':q.cexp>=4?'Mid-level':'Junior'} ${esc(sk(q.skill))} · ${q.round}</h3>`+(r.length?r.map((x,k)=>`<div class="rec ${k===0?'top':''}" style="margin-bottom:8px"><div class="rec-head"><b>${k+1}. ${esc(x.p.name)}</b><span class="score">${x.score}% match</span></div><div class="reasons">${x.why.map(w=>`<span class="tag">${esc(w)}</span>`).join('')}</div><div><button class="btn small ${k===0?'primary':''}" data-act="pickRec" data-arg="${x.p.id}|${x.slot.date}|${x.slot.time}|${esc(q.skill)}|${q.round}">Book ${fd(x.slot.date)} ${x.slot.time}</button></div></div>`).join(''):'<p class="note bad">No panel with this skill and level has an open slot from that date. Ask the coordinator to add capacity.</p>');};
+A.pickRec=arg=>{const [pid,d,t,skill,round]=arg.split('|');const name=$('#s-name').value.trim();const exp=$('#s-exp').value;
+  openDrawer('Book interview',`${esc(sk(skill))} ${round}`,bookForm(pid,d,t,{cand:name,cexp:+exp}),`<button class="btn" data-act="closeDrawer">Cancel</button><button class="btn primary" data-act="confirmBook" data-arg="${arg}">Book interview</button>`);};
+A.cancelIv=id=>{const i=S.interviews.find(x=>x.id===id);
+  openDrawer('Cancel interview?',`${esc(i.cand)} · ${fd(i.date)} ${i.time}`,`<p>The slot goes back into the roster and ${esc(P(i.pid).name)} is notified.</p>`,`<button class="btn" data-act="closeDrawer">Keep it</button><button class="btn primary" data-act="confirmCancel" data-arg="${id}">Cancel interview</button>`);};
+A.confirmCancel=id=>{const i=S.interviews.find(x=>x.id===id);i.status='Cancelled';notify(i.pid,`Interview cancelled: ${i.cand}, ${fd(i.date)} ${i.time}.`);log(ROLES[ui.role].user,`Cancelled interview for ${i.cand} on ${fd(i.date)} ${i.time}`);save();closeDrawer();render();toast('Interview cancelled. The slot is open again.');};
+A.reassign=arg=>{const [id,pid,d,t]=arg.split('|');const i=S.interviews.find(x=>x.id===id);const old=P(i.pid).name;const moved=d!==i.date||t!==i.time;
+  Object.assign(i,{pid,date:d,time:t,status:'Scheduled',impact:null});
+  notify(pid,`New interview assigned: ${i.cand}, ${sk(i.skill)} ${i.round}, ${fd(d)} ${t}.`);
+  notify('ta',`${i.cand} reassigned from ${old} to ${P(pid).name}${moved?`, now ${fd(d)} ${t}. Please inform the candidate.`:' at the same time.'}`);
+  log('Girish Dunga',`Reassigned ${i.cand} from ${old} to ${P(pid).name} (${fd(d)} ${t})`);save();closeDrawer();render();toast(`Reassigned to ${P(pid).name}. TA and the panel member were notified.`);};
+A.reassignPick=id=>{const i=S.interviews.find(x=>x.id===id);const from=i.date<TODAY?TODAY:i.date;
+  const same=recommend({skill:i.skill,round:i.round,cexp:i.cexp,from:i.date,exactDate:i.date,exactTime:i.time,exclude:i.pid,limit:3});
+  const later=recommend({skill:i.skill,round:i.round,cexp:i.cexp,from,exclude:i.pid,limit:4}).filter(x=>!same.some(y=>y.p===x.p));
+  const card=x=>`<div class="rec"><div class="rec-head"><b>${esc(x.p.name)}</b><span class="score">${x.score}% match</span></div><div class="reasons">${x.why.map(w=>`<span class="tag">${esc(w)}</span>`).join('')}</div><div><button class="btn small" data-act="reassign" data-arg="${i.id}|${x.p.id}|${x.slot.date}|${x.slot.time}">Assign ${fd(x.slot.date)} ${x.slot.time}</button></div></div>`;
+  openDrawer('Reassign interview',`${esc(i.cand)} · ${esc(sk(i.skill))} ${i.round} · originally ${fd(i.date)} ${i.time}`,
+  `<h3>Same time</h3>${same.length?same.map(card).join(''):'<p class="muted">No other panel is free at this exact time.</p>'}<h3>Other times</h3>${later.map(card).join('')||'<p class="muted">No alternatives this month.</p>'}`);};
+
+/* ---------- events ---------- */
+document.addEventListener('click',e=>{const el=e.target.closest('[data-act]');if(!el)return;const fn=A[el.dataset.act];if(!fn)return;e.preventDefault();fn(el.dataset.arg,el);});
+document.addEventListener('change',e=>{const t=e.target;
+  if(t.id==='role') return setRole(t.value);
+  if(t.dataset.pf){ui.pf[t.dataset.pf]=t.value;render();$('#'+t.id)?.focus();}
+  if(t.dataset.sf){ui.sf[t.dataset.sf]=t.value;if(t.dataset.sf==='skill'||t.dataset.sf==='round')ui.sf.pid='';render();$('#'+t.id)?.focus();}
+});
+document.addEventListener('submit',e=>{e.preventDefault();if(e.target.id==='loginform')return signIn();if(e.target.id==='chatform'){const q=$('#q').value.trim();if(q)ask(q).then(()=>$('#q')?.focus());}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#drawer').hidden)closeDrawer();});
+applyTheme(theme);
+showAuth();
+</script>
